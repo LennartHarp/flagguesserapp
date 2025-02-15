@@ -34,25 +34,4 @@ defmodule Flagguesserapp.FlagsFixtures do
 
     flag
   end
-
-  @doc """
-  Generate a unique flag name.
-  """
-  def unique_flag_name, do: "some name#{System.unique_integer([:positive])}"
-
-  @doc """
-  Generate a flag.
-  """
-  def flag_fixture(attrs \\ %{}) do
-    {:ok, flag} =
-      attrs
-      |> Enum.into(%{
-        continent: "some continent",
-        image_path: "some image_path",
-        name: unique_flag_name()
-      })
-      |> Flagguesserapp.Flags.create_flag()
-
-    flag
-  end
 end
