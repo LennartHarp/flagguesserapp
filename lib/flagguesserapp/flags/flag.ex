@@ -4,6 +4,7 @@ defmodule Flagguesserapp.Flags.Flag do
 
   schema "flags" do
     field :name, :string
+    field :continent, :string
     field :image_path, :string
 
     timestamps(type: :utc_datetime)
@@ -12,9 +13,8 @@ defmodule Flagguesserapp.Flags.Flag do
   @doc false
   def changeset(flag, attrs) do
     flag
-    |> cast(attrs, [:name, :image_path])
-    |> validate_required([:name, :image_path])
-    |> unique_constraint(:image_path)
+    |> cast(attrs, [:name, :continent, :image_path])
+    |> validate_required([:name, :continent, :image_path])
     |> unique_constraint(:name)
   end
 end

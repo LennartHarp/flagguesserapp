@@ -14,6 +14,7 @@ defmodule FlagguesserappWeb.FlagLive.Form do
 
     <.simple_form for={@form} id="flag-form" phx-change="validate" phx-submit="save">
       <.input field={@form[:name]} type="text" label="Name" />
+      <.input field={@form[:continent]} type="text" label="Continent" />
       <.input field={@form[:image_path]} type="text" label="Image path" />
       <:actions>
         <.button phx-disable-with="Saving...">Save Flag</.button>

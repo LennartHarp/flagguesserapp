@@ -4,9 +4,9 @@ defmodule FlagguesserappWeb.FlagLiveTest do
   import Phoenix.LiveViewTest
   import Flagguesserapp.FlagsFixtures
 
-  @create_attrs %{name: "some name", image_path: "some image_path"}
-  @update_attrs %{name: "some updated name", image_path: "some updated image_path"}
-  @invalid_attrs %{name: nil, image_path: nil}
+  @create_attrs %{name: "some name", continent: "some continent", image_path: "some image_path"}
+  @update_attrs %{name: "some updated name", continent: "some updated continent", image_path: "some updated image_path"}
+  @invalid_attrs %{name: nil, continent: nil, image_path: nil}
 
   defp create_flag(_) do
     flag = flag_fixture()

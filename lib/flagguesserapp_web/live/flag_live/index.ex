@@ -23,6 +23,7 @@ defmodule FlagguesserappWeb.FlagLive.Index do
       row_click={fn {_id, flag} -> JS.navigate(~p"/flags/#{flag}") end}
     >
       <:col :let={{_id, flag}} label="Name">{flag.name}</:col>
+      <:col :let={{_id, flag}} label="Continent">{flag.continent}</:col>
       <:col :let={{_id, flag}} label="Image path">{flag.image_path}</:col>
       <:action :let={{_id, flag}}>
         <div class="sr-only">

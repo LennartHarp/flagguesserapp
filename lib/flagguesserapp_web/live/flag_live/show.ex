@@ -20,6 +20,7 @@ defmodule FlagguesserappWeb.FlagLive.Show do
 
     <.list>
       <:item title="Name">{@flag.name}</:item>
+      <:item title="Continent">{@flag.continent}</:item>
       <:item title="Image path">{@flag.image_path}</:item>
     </.list>
 
