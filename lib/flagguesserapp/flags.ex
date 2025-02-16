@@ -27,6 +27,39 @@ defmodule Flagguesserapp.Flags do
     |> Enum.random()
   end
 
+  def filter_flags(filter) do
+    Flag
+    |> with_continent(filter["continent"])
+    |> search_by(filter["q"])
+    |> sort(filter["sort_by"])
+    |> Repo.all()
+  end
+
+  defp with_continent(query, continent)
+       when continent in ~w(africa asia europe northamerica southamerica oceania) do
+    where(query, continent: ^continent)
+  end
+
+  defp with_continent(query, _), do: query
+
+  defp search_by(query, q) when q in ["", nil], do: query
+
+  defp search_by(query, q) do
+    where(query, [f], ilike(f.name, ^"%#{q}%"))
+  end
+
+  defp sort(query, "name_desc") do
+    order_by(query, desc: :name)
+  end
+
+  defp sort(query, "name_asc") do
+    order_by(query, asc: :name)
+  end
+
+  defp sort(query, _) do
+    order_by(query, :id)
+  end
+
   @doc """
   Gets a single flag.
 
