@@ -20,7 +20,11 @@ defmodule FlagguesserappWeb.FlagLive.Index do
   def render(assigns) do
     ~H"""
     <.filter_form form={@form} />
-    <div class="raffles" id="raffles" phx-update="stream">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4"
+      id="raffles"
+      phx-update="stream"
+    >
       <.flag_card :for={{dom_id, flag} <- @streams.flags} flag={flag} id={dom_id} />
     </div>
     """
@@ -28,31 +32,44 @@ defmodule FlagguesserappWeb.FlagLive.Index do
 
   def filter_form(assigns) do
     ~H"""
-    <.form for={@form} id="filter-form" phx-change="filter">
-      <.input field={@form[:q]} placeholder="Search..." autocomplete="off" phx-debounce="500" />
-      <.input
-        type="select"
-        field={@form[:continent]}
-        prompt="Continent"
-        options={[
-          Africa: "africa",
-          Asia: "asia",
-          Europe: "europe",
-          "North America": "northamerica",
-          "South America": "southamerica",
-          Oceania: "oceania"
-        ]}
-      />
-      <.input
-        type="select"
-        field={@form[:sort_by]}
-        prompt="Sort By"
-        options={[
-          "Name: High to Low": "name_desc",
-          "Name: Low to High": "name_asc"
-        ]}
-      />
-      <.link patch={~p"/flags/overview/"}>
+    <.form for={@form} id="filter-form" phx-change="filter" class="filter-form">
+      <!-- Eingabefelder -->
+      <div class="filter-fields">
+        <.input
+          field={@form[:q]}
+          placeholder="Search..."
+          autocomplete="off"
+          phx-debounce="500"
+          class="filter-input"
+        />
+        <.input
+          type="select"
+          field={@form[:continent]}
+          prompt="Continent"
+          options={[
+            Africa: "africa",
+            Asia: "asia",
+            Europe: "europe",
+            "North America": "northamerica",
+            "South America": "southamerica",
+            Oceania: "oceania"
+          ]}
+          class="filter-select"
+        />
+        <.input
+          type="select"
+          field={@form[:sort_by]}
+          prompt="Sort By"
+          options={[
+            "Name: High to Low": "name_desc",
+            "Name: Low to High": "name_asc"
+          ]}
+          class="filter-select"
+        />
+      </div>
+      
+    <!-- Reset-Link -->
+      <.link patch={~p"/flags/overview/"} class="filter-reset">
         Reset
       </.link>
     </.form>
@@ -65,12 +82,14 @@ defmodule FlagguesserappWeb.FlagLive.Index do
   def flag_card(assigns) do
     ~H"""
     <.link navigate={~p"/flags/#{@flag}"} id={@id}>
-      <div class="card">
-        <img src={@flag.image_path} />
-        <h2>{@flag.name}</h2>
+      <div class="flagcard">
+        <div class="flagcard-image">
+          <img src={@flag.image_path} alt={@flag.name} />
+        </div>
         
-        <div class="details">
-          <.badge continent={@flag.continent} />
+        <div class="flagcard-content">
+          <h2>{@flag.name}</h2>
+           <.badge continent={@flag.continent} class="flagcard-badge" />
         </div>
       </div>
     </.link>
