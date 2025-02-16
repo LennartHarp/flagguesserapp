@@ -21,6 +21,12 @@ defmodule Flagguesserapp.Flags do
     Repo.all(Flag)
   end
 
+  def random_flag do
+    Flag
+    |> Repo.all()
+    |> Enum.random()
+  end
+
   @doc """
   Gets a single flag.
 

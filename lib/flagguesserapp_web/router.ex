@@ -23,6 +23,8 @@ defmodule FlagguesserappWeb.Router do
     live "/flags/new", FlagLive.Form, :new
     live "/flags/:id", FlagLive.Show, :show
     live "/flags/:id/edit", FlagLive.Form, :edit
+
+    live "/quiz/", QuizLive.Index
   end
 
   # Other scopes may use custom stacks.

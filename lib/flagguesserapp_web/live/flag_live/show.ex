@@ -7,11 +7,8 @@ defmodule FlagguesserappWeb.FlagLive.Show do
   def render(assigns) do
     ~H"""
     <.header>
-      <div class="incident">
-        <h1>This is a {@flag.name}'s flag!</h1>
-         <img src={@flag.image_path} />
-      </div>
-      
+      <h1 class="text-xl font-semibold mb-4">This is a {@flag.name}'s flag!</h1>
+       <img src={@flag.image_path} class="rounded-lg shadow-lg border-2 border-gray-300" />
       <:actions>
         <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
           <.link navigate={~p"/flags/#{@flag}/edit?return_to=show"}>
