@@ -19,11 +19,12 @@ defmodule FlagguesserappWeb.Router do
 
     get "/", PageController, :home
 
-    live "/flags", FlagLive.Index, :index
-    live "/flags/new", FlagLive.Form, :new
-    live "/flags/:id", FlagLive.Show, :show
-    live "/flags/:id/edit", FlagLive.Form, :edit
+    live "/flags", AdminFlagLive.Index, :index
+    live "/flags/new", AdminFlagLive.Form, :new
+    live "/flags/overview", FlagLive.Index, :index
 
+    live "/flags/:id", FlagLive.Show, :show
+    live "/flags/:id/edit", AdminFlagLive.Form, :edit
     live "/quiz/", QuizLive.Index
   end
 
