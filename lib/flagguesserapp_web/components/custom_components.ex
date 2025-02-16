@@ -19,27 +19,4 @@ defmodule FlagguesserappWeb.CustomComponents do
     </div>
     """
   end
-
-  attr :continent, :atom,
-    values: [:africa, :asia, :europe, :northamerica, :southamerica, :oceania],
-    default: :europe
-
-  attr :class, :string, default: nil
-
-  def badge(assigns) do
-    ~H"""
-    <div class={[
-      "rounded-md px-2 py-1 text-xs font-medium uppercase inline-block border",
-      @continent == :africa && "text-lime-600 border-lime-600",
-      @continent == :aisa && "text-amber-600 border-amber-600",
-      @continent == :europe && "text-gray-600 border-gray-600",
-      @continent == :northamerica && "text-blue-600 border-lime-600",
-      @continent == :southamerica && "text-red-600 border-amber-600",
-      @continent == :oceania && "text-yellow-600 border-gray-600",
-      @class
-    ]}>
-      {@continent}
-    </div>
-    """
-  end
 end

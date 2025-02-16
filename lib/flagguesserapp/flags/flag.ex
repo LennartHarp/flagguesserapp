@@ -4,12 +4,7 @@ defmodule Flagguesserapp.Flags.Flag do
 
   schema "flags" do
     field :name, :string
-
-    field :continent,
-          Ecto.Enum,
-          values: [:africa, :asia, :europe, :northamerica, :southamerica, :oceania],
-          default: :europe
-
+    field :continent, :string
     field :image_path, :string
 
     timestamps(type: :utc_datetime)
