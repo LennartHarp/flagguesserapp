@@ -446,3 +446,48 @@
     transform: translateX(0);
   }
 }
+.flagcard {
+  @apply bg-white shadow-md rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg w-full max-w-xs flex flex-col items-center;
+}
+
+.flagcard-image {
+  @apply w-full aspect-[4/3] bg-gray-100 flex items-center justify-center rounded-t-xl overflow-hidden;
+}
+
+.flagcard-image img {
+  @apply w-full h-full object-contain rounded-lg;
+}
+
+.flagcard-content {
+  @apply flex flex-col items-center justify-between flex-grow w-full p-3;
+}
+
+.flagcard-content h2 {
+  @apply text-lg font-semibold text-gray-800;
+}
+
+.flagcard-badge {
+  @apply mt-auto mb-2;
+}
+.filter-form {
+  @apply flex items-center justify-between gap-4 p-4 mb-6; /* Flexbox für horizontale Anordnung */
+}
+
+.filter-fields {
+  @apply flex flex-wrap gap-4 items-center flex-grow; /* Eingabefelder horizontal anordnen */
+}
+
+.filter-input,
+.filter-select {
+  @apply px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300;
+  height: 44px; /* Einheitliche Höhe für Eingabefelder */
+  min-width: 200px; /* Mindestbreite für Dropdowns und Textfelder */
+}
+
+.filter-reset {
+  @apply text-blue-500 hover:text-blue-700 underline font-medium;
+  height: 44px; /* Gleiche Höhe wie Eingabefelder */
+  line-height: 44px; /* Vertikale Zentrierung des Links */
+  white-space: nowrap; /* Verhindert Zeilenumbrüche beim Reset-Link */
+}
+
