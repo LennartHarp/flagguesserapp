@@ -2,89 +2,60 @@ defmodule FlagguesserappWeb.FlagLive.Index do
   use FlagguesserappWeb, :live_view
 
   alias Flagguesserapp.Flags
-  import FlagguesserappWeb.CustomComponents
 
-  def mount(_params, _session, socket) do
-    {:ok, socket}
-  end
-
-  def handle_params(params, _uri, socket) do
-    socket =
-      socket
-      |> stream(:flags, Flags.filter_flags(params), reset: true)
-      |> assign(:form, to_form(params))
-
-    {:noreply, socket}
-  end
-
+  @impl true
   def render(assigns) do
     ~H"""
-    <.filter_form form={@form} />
-    <div class="raffles" id="raffles" phx-update="stream">
-      <.flag_card :for={{dom_id, flag} <- @streams.flags} flag={flag} id={dom_id} />
-    </div>
-    """
-  end
+    <.header>
+      Listing Flags
+      <:actions>
+        <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
+          <.link navigate={~p"/flags/new"}>
+            New Flag
+          </.link>
+        </.button>
+      </:actions>
+    </.header>
 
-  def filter_form(assigns) do
-    ~H"""
-    <.form for={@form} id="filter-form" phx-change="filter">
-      <.input field={@form[:q]} placeholder="Search..." autocomplete="off" phx-debounce="500" />
-      <.input
-        type="select"
-        field={@form[:continent]}
-        prompt="Continent"
-        options={[
-          Africa: "africa",
-          Asia: "asia",
-          Europe: "europe",
-          "North America": "northamerica",
-          "South America": "southamerica",
-          Oceania: "oceania"
-        ]}
-      />
-      <.input
-        type="select"
-        field={@form[:sort_by]}
-        prompt="Sort By"
-        options={[
-          "Name: High to Low": "name_desc",
-          "Name: Low to High": "name_asc"
-        ]}
-      />
-      <.link patch={~p"/flags/overview/"}>
-        Reset
-      </.link>
-    </.form>
-    """
-  end
-
-  attr :flag, Flagguesserapp.Flags.Flag, required: true
-  attr :id, :string, required: true
-
-  def flag_card(assigns) do
-    ~H"""
-    <.link navigate={~p"/flags/#{@flag}"} id={@id}>
-      <div class="card">
-        <img src={@flag.image_path} />
-        <h2>{@flag.name}</h2>
-        
-        <div class="details">
-          <.badge continent={@flag.continent} />
+    <.table
+      id="flags"
+      rows={@streams.flags}
+      row_click={fn {_id, flag} -> JS.navigate(~p"/flags/#{flag}") end}
+    >
+      <:col :let={{_id, flag}} label="Name">{flag.name}</:col>
+      <:col :let={{_id, flag}} label="Continent">{flag.continent}</:col>
+      <:col :let={{_id, flag}} label="Image path">{flag.image_path}</:col>
+      <:action :let={{_id, flag}}>
+        <div class="sr-only">
+          <.link navigate={~p"/flags/#{flag}"}>Show</.link>
         </div>
-      </div>
-    </.link>
+        <.link navigate={~p"/flags/#{flag}/edit"}>Edit</.link>
+      </:action>
+      <:action :let={{id, flag}}>
+        <.link
+          phx-click={JS.push("delete", value: %{id: flag.id}) |> hide("##{id}")}
+          data-confirm="Are you sure?"
+        >
+          Delete
+        </.link>
+      </:action>
+    </.table>
     """
   end
 
-  def handle_event("filter", params, socket) do
-    params =
-      params
-      |> Map.take(~w(q continent sort_by))
-      |> Map.reject(fn {_, v} -> v == "" end)
+  @impl true
+  def mount(_params, _session, socket) do
+    {:ok,
+     socket
+     |> assign(:page_title, "Listing Flags")
+     |> stream(:flags, Flags.list_flags())}
+  end
 
-    socket = push_patch(socket, to: ~p"/flags/overview/?#{params}")
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    flag = Flags.get_flag!(id)
+    {:ok, _} = Flags.delete_flag(flag)
 
-    {:noreply, socket}
+    {:noreply, stream_delete(socket, :flags, flag)}
   end
 end

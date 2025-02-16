@@ -1,4 +1,4 @@
-defmodule FlagguesserappWeb.AdminFlagLive.Form do
+defmodule FlagguesserappWeb.FlagLive.Form do
   use FlagguesserappWeb, :live_view
 
   alias Flagguesserapp.Flags
