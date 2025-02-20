@@ -49,12 +49,14 @@ defmodule FlagguesserappWeb.CustomComponents do
   def side_bar(assigns) do
     ~H"""
     <div class="relative">
-      <div id="drawer" class="sidebar">
-        <div class="sidebar-banner">
+      <div id="sidebar" class="sidebar">
+        <div class="sidebar-banner border-b-2 border-gray-400">
           {render_slot(@banner)}
         </div>
         
-        <div class="sidebar-nav">{render_slot(@navbar)}</div>
+        <div class="sidebar-nav">
+          {render_slot(@navbar)}
+        </div>
       </div>
       
       <.button id="sidebar-toggle" phx-click={toggle_side_bar()}>
@@ -66,7 +68,7 @@ defmodule FlagguesserappWeb.CustomComponents do
 
   def toggle_side_bar do
     JS.toggle(
-      to: "#drawer",
+      to: "#sidebar",
       in: {"ease-out duration-300", "-translate-x-full", "translate-x-0"},
       out: {"ease-in duration-300", "translate-x-0", "-translate-x-full"},
       time: 300
