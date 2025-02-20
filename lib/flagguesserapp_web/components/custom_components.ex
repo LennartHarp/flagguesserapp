@@ -42,4 +42,34 @@ defmodule FlagguesserappWeb.CustomComponents do
     </div>
     """
   end
+
+  slot :banner, required: true
+  slot :navbar, required: true
+
+  def side_bar(assigns) do
+    ~H"""
+    <div class="relative">
+      <div id="drawer" class="sidebar">
+        <div class="sidebar-banner">
+          {render_slot(@banner)}
+        </div>
+        
+        <div class="sidebar-nav">{render_slot(@navbar)}</div>
+      </div>
+      
+      <.button id="sidebar-toggle" phx-click={toggle_side_bar()}>
+        <.icon name="hero-bars-3" />
+      </.button>
+    </div>
+    """
+  end
+
+  def toggle_side_bar do
+    JS.toggle(
+      to: "#drawer",
+      in: {"ease-out duration-300", "-translate-x-full", "translate-x-0"},
+      out: {"ease-in duration-300", "translate-x-0", "-translate-x-full"},
+      time: 300
+    )
+  end
 end

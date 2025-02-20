@@ -5,6 +5,61 @@
 /* This file is for your main application CSS */
 
 @layer components {
+    /* Sidebar */
+    .layout-container {
+      position: relative;
+    }
+    
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 250px;
+      background-color: #f1f1f1;
+      z-index: 1000;
+    }
+    
+    .main-content {
+      padding: 20px;
+    }
+    
+    .sidebar-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+  
+    }
+    .sidebar-banner {
+      @apply text-2xl font-extrabold p-4;
+    }
+  
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.25rem;
+    padding: 1rem;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar-nav a {
+    display: block;
+    font-size: 1.25rem;
+    padding: 1rem;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+  }
+  
+  .sidebar-nav a:hover {
+    background-color: red;
+    color: #fff;
+  }
+  
   /* Tips */
 
   .tips h1 {
