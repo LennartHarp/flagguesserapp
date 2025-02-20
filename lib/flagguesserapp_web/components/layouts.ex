@@ -10,5 +10,7 @@ defmodule FlagguesserappWeb.Layouts do
   """
   use FlagguesserappWeb, :html
 
+  import FlagguesserappWeb.CustomComponents
+
   embed_templates "layouts/*"
 end
