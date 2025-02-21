@@ -108,10 +108,7 @@
   white-space: nowrap; /* Verhindert Zeilenumbrüche beim Reset-Link */
 }
 
-  /* Text Hover Link */
-  .link-hover{
-    @apply hover:text-blue-600 hover:underline
-  }
+  
   /* Tips */
 
   .tips h1 {
