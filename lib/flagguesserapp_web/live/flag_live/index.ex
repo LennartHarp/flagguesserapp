@@ -20,11 +20,7 @@ defmodule FlagguesserappWeb.FlagLive.Index do
   def render(assigns) do
     ~H"""
     <.filter_form form={@form} />
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4"
-      id="raffles"
-      phx-update="stream"
-    >
+    <div class="flagcard-grid" id="flags" phx-update="stream">
       <.flag_card :for={{dom_id, flag} <- @streams.flags} flag={flag} id={dom_id} />
     </div>
     """
@@ -33,7 +29,6 @@ defmodule FlagguesserappWeb.FlagLive.Index do
   def filter_form(assigns) do
     ~H"""
     <.form for={@form} id="filter-form" phx-change="filter" class="filter-form">
-      <!-- Eingabefelder -->
       <div class="filter-fields">
         <.input
           field={@form[:q]}
@@ -68,31 +63,10 @@ defmodule FlagguesserappWeb.FlagLive.Index do
         />
       </div>
       
-    <!-- Reset-Link -->
       <.link patch={~p"/flags/overview/"} class="filter-reset">
         Reset
       </.link>
     </.form>
-    """
-  end
-
-  attr :flag, Flagguesserapp.Flags.Flag, required: true
-  attr :id, :string, required: true
-
-  def flag_card(assigns) do
-    ~H"""
-    <.link navigate={~p"/flags/#{@flag}"} id={@id}>
-      <div class="flagcard">
-        <div class="flagcard-image">
-          <img src={@flag.image_path} alt={@flag.name} />
-        </div>
-        
-        <div class="flagcard-content">
-          <h2>{@flag.name}</h2>
-           <.badge continent={@flag.continent} class="flagcard-badge" />
-        </div>
-      </div>
-    </.link>
     """
   end
 

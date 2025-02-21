@@ -20,26 +20,61 @@ defmodule FlagguesserappWeb.CustomComponents do
     """
   end
 
-  attr :continent, :atom,
-    values: [:africa, :asia, :europe, :northamerica, :southamerica, :oceania],
-    default: :europe
-
+  attr :region, :string, default: nil
   attr :class, :string, default: nil
 
   def badge(assigns) do
     ~H"""
     <div class={[
-      "rounded-md px-2 py-1 text-xs font-medium uppercase inline-block border",
-      @continent == :africa && "text-lime-600 border-lime-600",
-      @continent == :aisa && "text-amber-600 border-amber-600",
-      @continent == :europe && "text-gray-600 border-gray-600",
-      @continent == :northamerica && "text-blue-600 border-lime-600",
-      @continent == :southamerica && "text-red-600 border-amber-600",
-      @continent == :oceania && "text-yellow-600 border-gray-600",
+      "rounded-md px-2 py-1 text-xs font-medium inline-block border",
+      @region == "Africa" && "text-lime-600 border-lime-600",
+      @region == "Asia" && "text-amber-600 border-amber-600",
+      @region == "Europe" && "text-gray-600 border-gray-600",
+      @region == "North America" && "text-blue-600 border-lime-600",
+      @region == "South America" && "text-red-600 border-amber-600",
+      @region == "Oceania" && "text-yellow-600 border-gray-600",
       @class
     ]}>
-      {@continent}
+      {@region}
     </div>
+    """
+  end
+
+  attr :flag, Flagguesserapp.Flags.Flag, required: true
+  attr :id, :string, required: true
+
+  def flag_card(assigns) do
+    ~H"""
+    <.link navigate={~p"/flags/#{@flag}"} id={@id}>
+      <div class="flagcard">
+        <div class="flagcard-image">
+          <img src={@flag.image_path} alt={@flag.name} />
+        </div>
+        
+        <div class="flagcard-content">
+          <h2>{@flag.name}</h2>
+           <.badge region={@flag.region.name} class="flagcard-badge" />
+        </div>
+      </div>
+    </.link>
+    """
+  end
+
+  attr :flag, Flagguesserapp.Flags.Flag, required: true
+
+  def flag_simple_card(assigns) do
+    ~H"""
+    <.link navigate={~p"/flags/#{@flag}"}>
+      <div class="flagcard">
+        <div class="flagcard-image">
+          <img src={@flag.image_path} alt={@flag.name} />
+        </div>
+        
+        <div class="flagcard-content">
+          <h2>{@flag.name}</h2>
+        </div>
+      </div>
+    </.link>
     """
   end
 

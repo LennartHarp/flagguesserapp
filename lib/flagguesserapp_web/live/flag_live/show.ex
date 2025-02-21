@@ -23,6 +23,8 @@ defmodule FlagguesserappWeb.FlagLive.Show do
       
       <:item title="Continent">{@flag.continent}</:item>
       
+      <:item title="Region">{@flag.region.name}</:item>
+      
       <:item title="Image path">{@flag.image_path}</:item>
     </.list>
 
@@ -35,6 +37,6 @@ defmodule FlagguesserappWeb.FlagLive.Show do
     {:ok,
      socket
      |> assign(:page_title, "Show Flag")
-     |> assign(:flag, Flags.get_flag!(id))}
+     |> assign(:flag, Flags.get_flag_with_region!(id))}
   end
 end
