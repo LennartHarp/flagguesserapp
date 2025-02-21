@@ -1,4 +1,5 @@
 defmodule FlagguesserappWeb.CustomComponents do
+  alias Flagguesserapp.Regions
   use FlagguesserappWeb, :html
   alias Flagguesserapp.Flags.Flag
 
@@ -108,5 +109,15 @@ defmodule FlagguesserappWeb.CustomComponents do
       out: {"ease-in duration-300", "translate-x-0", "-translate-x-full"},
       time: 300
     )
+  end
+
+  def region_list(assigns) do
+    ~H"""
+    <div :for={region <- Regions.list_regions()}>
+      <.link navigate={~p"/quiz/#{region.slug}"}>
+        {region.name}
+      </.link>
+    </div>
+    """
   end
 end
