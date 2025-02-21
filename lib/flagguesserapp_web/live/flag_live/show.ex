@@ -23,11 +23,17 @@ defmodule FlagguesserappWeb.FlagLive.Show do
       
       <:item title="Continent">{@flag.continent}</:item>
       
-      <:item title="Region">{@flag.region.name}</:item>
+      <:item title="Region">
+        <.link navigate={~p"/regions/#{@flag.region.id}"}>
+          <div class="link-hover">
+            {@flag.region.name}
+          </div>
+        </.link>
+      </:item>
       
       <:item title="Image path">{@flag.image_path}</:item>
     </.list>
-
+     <.link navigate={~p"/regions/#{@flag.region.id}"}>{@flag.region.name}</.link>
     <.back navigate={~p"/flags"}>Back to flags</.back>
     """
   end
