@@ -33,19 +33,21 @@ defmodule Flagguesserapp.Flags do
 
   def filter_flags(filter) do
     Flag
-    |> with_continent(filter["continent"])
     |> search_by(filter["q"])
+    |> with_region(filter["region"])
     |> sort(filter["sort_by"])
     |> Repo.all()
     |> Repo.preload(:region)
   end
 
-  defp with_continent(query, continent)
-       when continent in ~w(africa asia europe northamerica southamerica oceania) do
-    where(query, continent: ^continent)
-  end
+  defp with_region(query, slug) when slug in ["", nil], do: query
 
-  defp with_continent(query, _), do: query
+  defp with_region(query, slug) do
+    from f in query,
+      join: r in assoc(f, :region),
+      on: f.region_id == r.id,
+      where: r.slug == ^slug
+  end
 
   defp search_by(query, q) when q in ["", nil], do: query
 
@@ -59,6 +61,12 @@ defmodule Flagguesserapp.Flags do
 
   defp sort(query, "name_asc") do
     order_by(query, asc: :name)
+  end
+
+  defp sort(query, "region") do
+    from f in query,
+      join: r in assoc(f, :region),
+      order_by: r.name
   end
 
   defp sort(query, _) do

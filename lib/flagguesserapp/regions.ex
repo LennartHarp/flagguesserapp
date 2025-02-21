@@ -50,6 +50,15 @@ defmodule Flagguesserapp.Regions do
     Repo.all(query)
   end
 
+  def region_names_and_slugs do
+    query =
+      from r in Region,
+        order_by: :name,
+        select: {r.name, r.slug}
+
+    Repo.all(query)
+  end
+
   @doc """
   Creates a region.
 

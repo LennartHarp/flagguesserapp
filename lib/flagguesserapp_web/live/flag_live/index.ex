@@ -2,9 +2,15 @@ defmodule FlagguesserappWeb.FlagLive.Index do
   use FlagguesserappWeb, :live_view
 
   alias Flagguesserapp.Flags
+  alias Flagguesserapp.Regions
+
   import FlagguesserappWeb.CustomComponents
 
   def mount(_params, _session, socket) do
+    socket =
+      socket
+      |> assign(:region_options, Regions.region_names_and_slugs())
+
     {:ok, socket}
   end
 
@@ -19,7 +25,7 @@ defmodule FlagguesserappWeb.FlagLive.Index do
 
   def render(assigns) do
     ~H"""
-    <.filter_form form={@form} />
+    <.filter_form form={@form} region_options={@region_options} />
     <div class="flagcard-grid" id="flags" phx-update="stream">
       <.flag_card :for={{dom_id, flag} <- @streams.flags} flag={flag} id={dom_id} />
     </div>
@@ -39,16 +45,9 @@ defmodule FlagguesserappWeb.FlagLive.Index do
         />
         <.input
           type="select"
-          field={@form[:continent]}
-          prompt="Continent"
-          options={[
-            Africa: "africa",
-            Asia: "asia",
-            Europe: "europe",
-            "North America": "northamerica",
-            "South America": "southamerica",
-            Oceania: "oceania"
-          ]}
+          field={@form[:region]}
+          prompt="Region"
+          options={@region_options}
           class="filter-select"
         />
         <.input
@@ -57,7 +56,8 @@ defmodule FlagguesserappWeb.FlagLive.Index do
           prompt="Sort By"
           options={[
             "Name: High to Low": "name_desc",
-            "Name: Low to High": "name_asc"
+            "Name: Low to High": "name_asc",
+            Region: "region"
           ]}
           class="filter-select"
         />
@@ -73,7 +73,7 @@ defmodule FlagguesserappWeb.FlagLive.Index do
   def handle_event("filter", params, socket) do
     params =
       params
-      |> Map.take(~w(q continent sort_by))
+      |> Map.take(~w(q sort_by region))
       |> Map.reject(fn {_, v} -> v == "" end)
 
     socket = push_patch(socket, to: ~p"/flags/overview/?#{params}")

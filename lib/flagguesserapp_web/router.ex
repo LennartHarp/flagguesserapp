@@ -25,7 +25,8 @@ defmodule FlagguesserappWeb.Router do
 
     live "/flags/:id", FlagLive.Show, :show
     live "/flags/:id/edit", AdminFlagLive.Form, :edit
-    live "/quiz/", QuizLive.Index, :index
+
+    live "/quiz/:slug", QuizLive.Index, :index
 
     live "/regions", RegionLive.Index, :index
     live "/regions/new", RegionLive.Form, :new
