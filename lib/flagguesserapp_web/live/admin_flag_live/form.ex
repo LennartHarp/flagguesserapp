@@ -3,6 +3,7 @@ defmodule FlagguesserappWeb.AdminFlagLive.Form do
 
   alias Flagguesserapp.Flags
   alias Flagguesserapp.Flags.Flag
+  alias Flagguesserapp.Regions
 
   @impl true
   def render(assigns) do
@@ -15,7 +16,13 @@ defmodule FlagguesserappWeb.AdminFlagLive.Form do
     <.simple_form for={@form} id="flag-form" phx-change="validate" phx-submit="save">
       <.input field={@form[:name]} type="text" label="Name" />
       <.input field={@form[:continent]} type="text" label="Continent" />
-      <.input field={@form[:image_path]} type="text" label="Image path" />
+      <.input
+        field={@form[:region_id]}
+        type="select"
+        label="Region"
+        prompt="Choose a Region"
+        options={@region_options}
+      /> <.input field={@form[:image_path]} type="text" label="Image path" />
       <:actions>
         <.button phx-disable-with="Saving...">Save Flag</.button>
       </:actions>
@@ -30,6 +37,7 @@ defmodule FlagguesserappWeb.AdminFlagLive.Form do
     {:ok,
      socket
      |> assign(:return_to, return_to(params["return_to"]))
+     |> assign(:region_options, Regions.region_names_and_ids())
      |> apply_action(socket.assigns.live_action, params)}
   end
 

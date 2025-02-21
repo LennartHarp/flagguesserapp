@@ -21,6 +21,10 @@ defmodule Flagguesserapp.Flags do
     Repo.all(Flag)
   end
 
+  def list_flags_with_regions do
+    Repo.all(Flag) |> Repo.preload(:region)
+  end
+
   def random_flag do
     Flag
     |> Repo.all()
@@ -33,6 +37,7 @@ defmodule Flagguesserapp.Flags do
     |> search_by(filter["q"])
     |> sort(filter["sort_by"])
     |> Repo.all()
+    |> Repo.preload(:region)
   end
 
   defp with_continent(query, continent)
@@ -75,6 +80,10 @@ defmodule Flagguesserapp.Flags do
 
   """
   def get_flag!(id), do: Repo.get!(Flag, id)
+
+  def get_flag_with_region!(id) do
+    get_flag!(id) |> Repo.preload(:region)
+  end
 
   @doc """
   Creates a flag.

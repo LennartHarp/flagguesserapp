@@ -24,7 +24,7 @@ defmodule FlagguesserappWeb.AdminFlagLive.Index do
     >
       <:col :let={{_id, flag}} label="Name">{flag.name}</:col>
       
-      <:col :let={{_id, flag}} label="Continent">{flag.continent}</:col>
+      <:col :let={{_id, flag}} label="Region">{flag.region.name}</:col>
       
       <:col :let={{_id, flag}} label="Image path">{flag.image_path}</:col>
       
@@ -52,7 +52,7 @@ defmodule FlagguesserappWeb.AdminFlagLive.Index do
     {:ok,
      socket
      |> assign(:page_title, "Listing Flags")
-     |> stream(:flags, Flags.list_flags())}
+     |> stream(:flags, Flags.list_flags_with_regions())}
   end
 
   @impl true
