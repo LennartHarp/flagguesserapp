@@ -3,19 +3,36 @@ defmodule FlagguesserappWeb.CustomComponents do
   use FlagguesserappWeb, :html
   alias Flagguesserapp.Flags.Flag
 
-  attr :flag, Flag, required: true
-  attr :choices, :list, required: true
+  attr :flag, Flag
+  attr :choices, :list, default: []
 
   def quiz_card(assigns) do
     ~H"""
-    <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-      <img src={@flag.image_path} class="rounded-lg shadow-lg border-2 border-gray-300 mb-6" />
-      <div class="grid grid-cols-2 gap-4">
-        <%= for name <- @choices do %>
-          <button class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none transition duration-200">
-            {name}
-          </button>
-        <% end %>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-center">
+        <div class="bg-white shadow-md rounded-lg p-6 w-80">
+          <!-- Increased width to w-80 -->
+          <%= if @flag do %>
+            <div class="flex justify-center items-center mb-6 h-48 bg-gray-100 rounded">
+              <!-- Increased height and added bg-gray-100 for visibility -->
+              <img src={@flag.image_path} alt="Flag" class="max-w-full max-h-full object-contain" />
+              <!-- Changed to object-contain -->
+            </div>
+            
+            <div class="flex flex-col space-y-3">
+              <%= for choice <- @choices do %>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm w-full">
+                  {choice}
+                  <!-- Fixed syntax error -->
+                </button>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center text-2xl font-bold text-green-600">
+              Geschafft!
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
     """

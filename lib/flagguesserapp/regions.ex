@@ -35,10 +35,13 @@ defmodule Flagguesserapp.Regions do
       ** (Ecto.NoResultsError)
 
   """
-  def get_region!(id), do: Repo.get!(Region, id)
+  def get_region!(id) when is_integer(id), do: Repo.get!(Region, id)
 
-  def get_region_with_flags!(id) do
-    get_region!(id) |> Repo.preload(:flags)
+  def get_region!(slug) when is_binary(slug),
+    do: Repo.get_by!(Region, slug: slug)
+
+  def get_region_with_flags!(id_or_slug) do
+    get_region!(id_or_slug) |> Repo.preload(:flags)
   end
 
   def region_names_and_ids do
