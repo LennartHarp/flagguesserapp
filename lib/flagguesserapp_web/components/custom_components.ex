@@ -85,7 +85,7 @@ defmodule FlagguesserappWeb.CustomComponents do
   def side_bar(assigns) do
     ~H"""
     <div class="relative">
-      <div id="sidebar" class="sidebar">
+      <div id="sidebar" class="sidebar hidden">
         <div class="sidebar-banner border-b-2 border-gray-400">
           {render_slot(@banner)}
         </div>
