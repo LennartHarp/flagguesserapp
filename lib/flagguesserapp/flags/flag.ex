@@ -5,11 +5,6 @@ defmodule Flagguesserapp.Flags.Flag do
   schema "flags" do
     field :name, :string
 
-    field :continent,
-          Ecto.Enum,
-          values: [:africa, :asia, :europe, :northamerica, :southamerica, :oceania],
-          default: :europe
-
     field :image_path, :string
 
     belongs_to :region, Flagguesserapp.Regions.Region
@@ -20,8 +15,8 @@ defmodule Flagguesserapp.Flags.Flag do
   @doc false
   def changeset(flag, attrs) do
     flag
-    |> cast(attrs, [:name, :continent, :image_path, :region_id])
-    |> validate_required([:name, :continent, :image_path, :region_id])
+    |> cast(attrs, [:name, :image_path, :region_id])
+    |> validate_required([:name, :image_path, :region_id])
     |> unique_constraint(:name)
     |> assoc_constraint(:region)
   end

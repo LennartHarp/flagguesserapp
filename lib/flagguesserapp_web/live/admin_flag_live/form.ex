@@ -15,7 +15,6 @@ defmodule FlagguesserappWeb.AdminFlagLive.Form do
 
     <.simple_form for={@form} id="flag-form" phx-change="validate" phx-submit="save">
       <.input field={@form[:name]} type="text" label="Name" />
-      <.input field={@form[:continent]} type="text" label="Continent" />
       <.input
         field={@form[:region_id]}
         type="select"
