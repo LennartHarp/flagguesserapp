@@ -4,31 +4,19 @@ defmodule FlagguesserappWeb.CustomComponents do
   alias Flagguesserapp.Flags.Flag
 
   attr :flag, Flag
-  attr :choices, :list, default: []
+  slot :inner_block
 
   def quiz_card(assigns) do
     ~H"""
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="quizcard">
       <div class="flex justify-center">
-        <div class="bg-white shadow-md rounded-lg p-6 w-80">
-          <!-- Increased width to w-80 -->
+        <div>
           <%= if @flag do %>
-            <div class="flex justify-center items-center mb-6 h-48 bg-gray-100 rounded">
-              <!-- Increased height and added bg-gray-100 for visibility -->
-              <img src={@flag.image_path} alt="Flag" class="max-w-full max-h-full object-contain" />
-              <!-- Changed to object-contain -->
-            </div>
-            
-            <div class="flex flex-col space-y-3">
-              <%= for choice <- @choices do %>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm w-full">
-                  {choice}
-                  <!-- Fixed syntax error -->
-                </button>
-              <% end %>
-            </div>
+            <img src={@flag.image_path} alt="Flag" class="max-w-full max-h-full object-contain" /> {render_slot(
+              @inner_block
+            )}
           <% else %>
-            <div class="text-center text-2xl font-bold text-green-600">
+            <div class="quizcard_score">
               Geschafft!
             </div>
           <% end %>

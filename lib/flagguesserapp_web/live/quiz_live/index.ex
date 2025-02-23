@@ -6,10 +6,15 @@ defmodule FlagguesserappWeb.QuizLive.Index do
 
   def render(assigns) do
     ~H"""
-    <div>
-      <.quiz_card flag={@current_flag} choices={["1", "2", "3", "4"]} />
-      <button phx-click="next_flag">Weiter</button>
-    </div>
+    <.background image_path="/images/flags_background.jpg" />
+    <.quiz_card flag={@current_flag}>
+      <div :for={name <- shuffle_choices(@flags, @current_flag)} class="flex flex-col space-y-3 p-1">
+        <button class="quizcard-button">
+          {name}
+        </button>
+      </div>
+       <button phx-click="next_flag">Weiter</button>
+    </.quiz_card>
     """
   end
 
@@ -30,6 +35,14 @@ defmodule FlagguesserappWeb.QuizLive.Index do
       |> assign(:current_flag, Enum.at(flags, 0))
 
     {:noreply, socket}
+  end
+
+  def shuffle_choices(flags, current_flag) do
+    correct_name = current_flag.name
+    other_names = Enum.map(flags -- [current_flag], & &1.name)
+
+    [correct_name | Enum.take_random(other_names, 3)]
+    |> Enum.shuffle()
   end
 
   def handle_event("next_flag", _params, socket)
