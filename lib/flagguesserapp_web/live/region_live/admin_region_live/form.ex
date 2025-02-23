@@ -1,4 +1,4 @@
-defmodule FlagguesserappWeb.RegionLive.Form do
+defmodule FlagguesserappWeb.AdminRegionLive.Form do
   use FlagguesserappWeb, :live_view
 
   alias Flagguesserapp.Regions
