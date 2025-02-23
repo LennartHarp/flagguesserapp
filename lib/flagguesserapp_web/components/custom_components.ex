@@ -4,7 +4,8 @@ defmodule FlagguesserappWeb.CustomComponents do
   alias Flagguesserapp.Flags.Flag
 
   attr :flag, Flag
-  slot :inner_block
+  slot :content
+  slot :actions
 
   def quiz_card(assigns) do
     ~H"""
@@ -12,9 +13,10 @@ defmodule FlagguesserappWeb.CustomComponents do
       <div class="flex justify-center">
         <div>
           <%= if @flag do %>
-            <img src={@flag.image_path} alt="Flag" class="max-w-full max-h-full object-contain" /> {render_slot(
-              @inner_block
-            )}
+            <div class="w-64 h-32 flex items-center justify-center bg-white">
+              <img src={@flag.image_path} alt="Flag" class="max-w-full max-h-full object-contain" />
+            </div>
+             {render_slot(@content)}
           <% else %>
             <div class="quizcard_score">
               Geschafft!
@@ -22,6 +24,7 @@ defmodule FlagguesserappWeb.CustomComponents do
           <% end %>
         </div>
       </div>
+       {render_slot(@actions)}
     </div>
     """
   end
