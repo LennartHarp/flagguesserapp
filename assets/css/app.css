@@ -5,7 +5,7 @@
 /* This file is for your main application CSS */
 
 @layer components {
-    /* Sidebar */
+/* Sidebar */
     .layout-container {
       position: relative;
     }
@@ -60,6 +60,22 @@
     background-color: #e3e3e3;
   }
 
+/* Quizcard*/
+
+.quizcard{
+ @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg p-6 w-80
+}
+.quizcard img{
+  @apply flex justify-center items-center mb-6 h-48 bg-gray-100 rounded
+}
+.quizcard-button{
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm w-full
+}
+.quizcard_score{
+  @apply text-center text-2xl font-bold text-green-600
+}
+
+/* Flagcard*/
 .flagcard {
   @apply bg-white shadow-md rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg w-full max-w-xs flex flex-col items-center;
 }
@@ -87,11 +103,11 @@
   @apply mt-auto mb-2;
 }
 .filter-form {
-  @apply flex items-center justify-between gap-4 p-4 mb-6; /* Flexbox für horizontale Anordnung */
+  @apply flex items-center justify-between gap-4 p-4 mb-6;
 }
 
 .filter-fields {
-  @apply flex flex-wrap gap-4 items-center flex-grow; /* Eingabefelder horizontal anordnen */
+  @apply flex flex-wrap gap-4 items-center flex-grow;
 }
 
 .filter-input,
