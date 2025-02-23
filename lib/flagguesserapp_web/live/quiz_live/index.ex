@@ -8,12 +8,19 @@ defmodule FlagguesserappWeb.QuizLive.Index do
     ~H"""
     <.background image_path="/images/flags_background.jpg" />
     <.quiz_card flag={@current_flag}>
-      <div :for={name <- shuffle_choices(@flags, @current_flag)} class="flex flex-col space-y-3 p-1">
-        <button class="quizcard-button">
-          {name}
-        </button>
-      </div>
-       <button phx-click="next_flag">Weiter</button>
+      <:content>
+        <div :for={name <- shuffle_choices(@flags, @current_flag)} class="flex flex-col space-y-3 p-1">
+          <button class="quizcard-button">
+            {name}
+          </button>
+        </div>
+      </:content>
+      
+      <:actions>
+        <div class="">
+          <button phx-click="next_flag">Weiter</button>
+        </div>
+      </:actions>
     </.quiz_card>
     """
   end
