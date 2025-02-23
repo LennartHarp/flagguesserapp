@@ -38,6 +38,17 @@ defmodule FlagguesserappWeb.CustomComponents do
     """
   end
 
+  attr :image_path, :string
+
+  def background(assigns) do
+    ~H"""
+    <div
+      class="absolute inset-x-0 bottom-0 h-full -z-10 bg-cover bg-center"
+      style={"background-image: url(#{@image_path})"}
+    />
+    """
+  end
+
   attr :region, :string, default: nil
   attr :class, :string, default: nil
 
