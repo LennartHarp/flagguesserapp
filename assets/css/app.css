@@ -62,16 +62,27 @@
 
 /* Quizcard*/
 
-.quizcard{
- @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg p-6 w-80
+.quizcard {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg pt-6 pr-6 pl-6 pb-2 w-80
 }
-.quizcard img{
-  @apply flex justify-center items-center mb-6 h-48 bg-gray-100 rounded
+
+.quizcard img {
+  @apply max-w-full max-h-full object-contain border-4 border-gray-800 rounded-lg
+}
+.quizcard-image-container {
+  @apply w-64 h-32 flex items-center justify-center pb-4 bg-white rounded overflow-hidden;
 }
 .quizcard-button{
-  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm w-full
+  @apply flex flex-col space-y-3 p-1
 }
-.quizcard_score{
+.quizcard-button button{
+ @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm w-full
+}
+.quizcard-action{
+    @apply flex justify-end hover:shadow-2xl
+  }
+  
+.quizcard-score{
   @apply text-center text-2xl font-bold text-green-600
 }
 

@@ -9,16 +9,28 @@ defmodule FlagguesserappWeb.QuizLive.Index do
     <.background image_path="/images/flags_background.jpg" />
     <.quiz_card flag={@current_flag}>
       <:content>
-        <div :for={name <- shuffle_choices(@flags, @current_flag)} class="flex flex-col space-y-3 p-1">
-          <button class="quizcard-button">
-            {name}
+        <div class="quizcard-button">
+          <div :for={choice <- shuffle_choices(@flags, @current_flag)}>
+            <button phx-click="check_answer" phx-value-choice={choice}>
+              {choice}
+            </button>
+          </div>
+          
+          <button id="next_button" phx-click={JS.toggle(to: "#next_button")} class="hidden">
+            Next
           </button>
         </div>
       </:content>
       
+      <:result>
+        You've got: {@score_index}/{Enum.count(@flags)}!
+      </:result>
+      
       <:actions>
-        <div class="">
-          <button phx-click="next_flag">Weiter</button>
+        <div class="quizcard-action">
+          <button phx-click="next_flag">
+            Skip <.icon name="hero-arrow-right-circle" />
+          </button>
         </div>
       </:actions>
     </.quiz_card>
@@ -39,6 +51,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
       |> assign(:region, region)
       |> assign(:flags, flags)
       |> assign(:current_index, 0)
+      |> assign(:score_index, 0)
       |> assign(:current_flag, Enum.at(flags, 0))
 
     {:noreply, socket}
@@ -52,25 +65,41 @@ defmodule FlagguesserappWeb.QuizLive.Index do
     |> Enum.shuffle()
   end
 
-  def handle_event("next_flag", _params, socket)
-      when is_map_key(socket.assigns, :current_flag) and
-             socket.assigns.current_flag in [nil, ""] do
+  def handle_event("check_answer", %{"choice" => choice}, socket)
+      when choice == socket.assigns.current_flag.name do
+    socket =
+      socket
+      |> update(:score_index, &(&1 + 1))
+      |> load_next_flag()
+
+    {:noreply, socket}
+  end
+
+  def handle_event("check_answer", _params, socket) do
+    socket =
+      socket
+      |> load_next_flag()
+
+    {:noreply, socket}
+  end
+
+  def handle_event("next_flag", _params, %{assigns: %{current_flag: flag}} = socket)
+      when flag in [nil, ""] do
     {:noreply, push_navigate(socket, to: ~p"/flags/overview")}
   end
 
   def handle_event("next_flag", _params, socket) do
-    current_index = socket.assigns[:current_index]
-    flags = socket.assigns[:flags]
-
-    next_index = current_index + 1
-
-    new_flag = if next_index < length(flags), do: Enum.at(flags, next_index), else: nil
-
-    socket =
-      socket
-      |> assign(:current_index, next_index)
-      |> assign(:current_flag, new_flag)
+    socket = load_next_flag(socket)
 
     {:noreply, socket}
+  end
+
+  defp load_next_flag(socket) do
+    socket
+    |> update(:current_index, &(&1 + 1))
+    |> assign(
+      :current_flag,
+      Enum.at(socket.assigns[:flags], socket.assigns[:current_index] + 1)
+    )
   end
 end
