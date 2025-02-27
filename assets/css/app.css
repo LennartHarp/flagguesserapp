@@ -78,8 +78,11 @@
 .quizcard-button button{
  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm w-full
 }
-.quizcard-action{
+.quizcard-action-right{
     @apply flex justify-end hover:shadow-2xl
+  }
+  .quizcard-action-left{
+    @apply flex hover:shadow-2xl
   }
   
 .quizcard-score{
