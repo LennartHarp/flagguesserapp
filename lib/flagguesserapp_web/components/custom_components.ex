@@ -109,7 +109,7 @@ defmodule FlagguesserappWeb.CustomComponents do
     ~H"""
     <div class="relative">
       <div id="sidebar" class="sidebar hidden">
-        <div class="sidebar-banner border-b-2 border-gray-400">
+        <div class="sidebar-banner">
           {render_slot(@banner)}
         </div>
         

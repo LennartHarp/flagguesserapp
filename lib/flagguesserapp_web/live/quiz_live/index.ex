@@ -2,6 +2,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
   use FlagguesserappWeb, :live_view
 
   alias Flagguesserapp.Regions
+  alias Flagguesserapp.Flags.Flag
   import FlagguesserappWeb.CustomComponents
 
   def render(assigns) do
@@ -13,13 +14,13 @@ defmodule FlagguesserappWeb.QuizLive.Index do
           <div :for={
             {flag, index} <-
               Enum.with_index(
-                [@current_flag | Enum.take_random(@flags -- [@current_flag], 3)]
+                [@current_flag | Enum.take_random(@region.flags -- [@current_flag], 3)]
                 |> Enum.shuffle()
               )
           }>
             <button
-              id={"choice-button-#{index}"}
-              phx-click={show_answer(@current_flag == flag, "choice-button-#{index}")}
+              id={"quiz-choice-button-#{index}"}
+              phx-click={show_answer(@current_flag == flag, "quiz-choice-button-#{index}")}
               phx-value-name={flag.name}
               class="transition-colors duration-300"
             >
@@ -27,23 +28,26 @@ defmodule FlagguesserappWeb.QuizLive.Index do
             </button>
           </div>
           
-          <button id="next_button" phx-click={hide_answer()} class="hidden">
+          <button id="quiz-next_button" phx-click={hide_answer()} class="hidden">
             Next
           </button>
         </div>
       </:content>
       
       <:result>
-        You've got: {@score_index}/{Enum.count(@flags)}!
-        <button phx-click="retry">
-          Retry <.icon name="hero-arrow-left-circle" />
-        </button>
+        You've got: {@score_index}/{Enum.count(@region.flags)}!
       </:result>
       
       <:actions>
-        <div class="quizcard-action-right">
+        <div class="quizcard-action">
+          <button id="quiz-retry-button" phx-click="retry" data-confirm={toggle_retry(@current_flag)}>
+            <.icon name="hero-arrow-path" />
+          </button>
+          
+          <h1>{@score_index}/{Enum.count(@region.flags)}</h1>
+          
           <button phx-click={hide_answer()}>
-            Skip <.icon name="hero-arrow-right-circle" />
+            <.icon name="hero-arrow-right-circle" />
           </button>
         </div>
       </:actions>
@@ -56,18 +60,18 @@ defmodule FlagguesserappWeb.QuizLive.Index do
   end
 
   def handle_params(%{"slug" => slug}, _uri, socket) do
-    region = Regions.get_region_with_flags!(slug)
-    flags = region.flags |> Enum.shuffle()
+    region =
+      slug
+      |> Regions.get_region_with_flags!()
+      |> Map.update!(:flags, &Enum.shuffle(&1))
 
     socket =
       socket
       |> assign(:page_title, region.name)
       |> assign(:region, region)
-      |> assign(:flags, flags)
-      # Next Flag per next_index?
       |> assign(:current_index, 0)
       |> assign(:score_index, 0)
-      |> assign(:current_flag, Enum.at(flags, 0))
+      |> assign(:current_flag, Enum.at(region.flags, 0))
 
     {:noreply, socket}
   end
@@ -85,14 +89,13 @@ defmodule FlagguesserappWeb.QuizLive.Index do
     {:noreply, socket}
   end
 
-  def handle_event("next_flag", _params, %{assigns: %{current_flag: flag}} = socket)
+  def handle_event("next", _params, %{assigns: %{current_flag: flag}} = socket)
       when flag in [nil, ""] do
     {:noreply, push_navigate(socket, to: ~p"/flags/overview")}
   end
 
-  def handle_event("next_flag", _params, socket) do
-    socket = load_next_flag(socket)
-
+  def handle_event("next", _params, socket) do
+    socket = load_next(socket)
     {:noreply, socket}
   end
 
@@ -100,33 +103,33 @@ defmodule FlagguesserappWeb.QuizLive.Index do
     {:noreply, push_navigate(socket, to: ~p"/quiz/#{socket.assigns[:region].slug}")}
   end
 
-  defp load_next_flag(socket) do
+  defp load_next(socket) do
     socket
     |> update(:current_index, &(&1 + 1))
     |> assign(
       :current_flag,
-      Enum.at(socket.assigns[:flags], socket.assigns[:current_index] + 1)
+      Enum.at(socket.assigns[:region].flags, socket.assigns[:current_index] + 1)
     )
   end
 
   defp show_answer(is_correct, dom_id) do
     JS.push("check_answer")
     |> JS.show(
-      to: "#next_button",
+      to: "#quiz-next_button",
       transition: {"ease-out duration-300", "opacity-0", "opacity-100"}
     )
     |> JS.toggle_class(toggle_button_color(is_correct), to: "##{dom_id}")
-    |> JS.toggle_attribute({"disabled", "true"}, to: "[id^='choice-button-']")
+    |> JS.set_attribute({"disabled", "true"}, to: "[id^='quiz-choice-button-']")
   end
 
   defp hide_answer() do
-    JS.push("next_flag")
+    JS.push("next")
     |> JS.hide(
-      to: "#next_button",
+      to: "#quiz-next_button",
       transition: {"ease-out duration-300", "opacity-100", "opacity-0"}
     )
-    |> JS.remove_class("!bg-green-500 !bg-red-500", to: "[id^='choice-button-']")
-    |> JS.toggle_attribute({"disabled", nil}, to: "[id^='choice-button-']")
+    |> JS.remove_class("!bg-green-500 !bg-red-500", to: "[id^='quiz-choice-button-']")
+    |> JS.remove_attribute("disabled", to: "[id^='quiz-choice-button-']")
   end
 
   defp toggle_button_color(true) do
@@ -135,5 +138,13 @@ defmodule FlagguesserappWeb.QuizLive.Index do
 
   defp toggle_button_color(false) do
     "!bg-red-500"
+  end
+
+  defp toggle_retry(nil) do
+    ""
+  end
+
+  defp toggle_retry(%Flag{}) do
+    "Do you really want to retry?"
   end
 end

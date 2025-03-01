@@ -32,7 +32,7 @@
   
     }
     .sidebar-banner {
-      @apply text-2xl font-extrabold p-4;
+      @apply text-2xl font-extrabold p-4 border-b-2 border-gray-400;
     }
   
   .sidebar-nav {
@@ -65,7 +65,6 @@
 .quizcard {
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg pt-6 pr-6 pl-6 pb-2 w-80
 }
-
 .quizcard img {
   @apply max-w-full max-h-full object-contain border-4 border-gray-800 rounded-lg
 }
@@ -78,12 +77,12 @@
 .quizcard-button button{
  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm w-full
 }
-.quizcard-action-right{
-    @apply flex justify-end hover:shadow-2xl
+.quizcard-action{
+    @apply flex justify-between border-t border-gray-200 p-1
   }
-  .quizcard-action-left{
-    @apply flex hover:shadow-2xl
-  }
+.quizcard-action h1{
+  @apply font-semibold 
+}
   
 .quizcard-score{
   @apply text-center text-2xl font-bold text-green-600
