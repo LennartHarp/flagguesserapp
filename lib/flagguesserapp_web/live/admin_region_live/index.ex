@@ -1,4 +1,4 @@
-defmodule FlagguesserappWeb.RegionLive.Index do
+defmodule FlagguesserappWeb.AdminRegionLive.Index do
   use FlagguesserappWeb, :live_view
 
   alias Flagguesserapp.Regions
@@ -23,14 +23,18 @@ defmodule FlagguesserappWeb.RegionLive.Index do
       row_click={fn {_id, region} -> JS.navigate(~p"/regions/#{region}") end}
     >
       <:col :let={{_id, region}} label="Name">{region.name}</:col>
+      
       <:col :let={{_id, region}} label="Slug">{region.slug}</:col>
+      
       <:col :let={{_id, region}} label="Image path">{region.image_path}</:col>
+      
       <:action :let={{_id, region}}>
         <div class="sr-only">
           <.link navigate={~p"/regions/#{region}"}>Show</.link>
         </div>
-        <.link navigate={~p"/regions/#{region}/edit"}>Edit</.link>
+         <.link navigate={~p"/regions/#{region}/edit"}>Edit</.link>
       </:action>
+      
       <:action :let={{id, region}}>
         <.link
           phx-click={JS.push("delete", value: %{id: region.id}) |> hide("##{id}")}
