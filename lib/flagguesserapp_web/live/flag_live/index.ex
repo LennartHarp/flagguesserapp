@@ -1,4 +1,4 @@
-defmodule FlagguesserappWeb.FlagLive.Index do
+defmodule FlagguesserappWeb.FlagLive.Overview do
   use FlagguesserappWeb, :live_view
 
   alias Flagguesserapp.Flags
