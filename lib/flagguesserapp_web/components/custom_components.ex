@@ -12,18 +12,16 @@ defmodule FlagguesserappWeb.CustomComponents do
     ~H"""
     <div class="quizcard">
       <div class="flex justify-center">
-        <div>
-          <%= if @flag do %>
-            <div class="quizcard-image-container">
-              <img src={@flag.image_path} alt="Flag" />
-            </div>
-             {render_slot(@content)}
-          <% else %>
-            <div class="quizcard-score">
-              {render_slot(@result)}
-            </div>
-          <% end %>
-        </div>
+        <%= if @flag do %>
+          <div class="quizcard-image-container">
+            <img src={@flag.image_path} alt="Flag" />
+          </div>
+           {render_slot(@content)}
+        <% else %>
+          <div class="quizcard-score">
+            {render_slot(@result)}
+          </div>
+        <% end %>
       </div>
       
       <div class="pt-3">
@@ -71,8 +69,10 @@ defmodule FlagguesserappWeb.CustomComponents do
     ~H"""
     <.link navigate={~p"/flags/#{@flag}"} id={@id}>
       <div class="flagcard">
-        <div class="flagcard-image">
-          <img src={@flag.image_path} alt={@flag.name} />
+        <div class="flex justify-center">
+          <div class="flagcard-image-container">
+            <img src={@flag.image_path} alt={@flag.name} />
+          </div>
         </div>
         
         <div class="flagcard-content">

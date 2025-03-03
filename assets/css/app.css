@@ -88,33 +88,39 @@
   @apply text-center text-2xl font-bold text-green-600
 }
 
-/* Flagcard*/
+/* Flagcard */
 .flagcard {
-  @apply bg-white shadow-md rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg w-full max-w-xs flex flex-col items-center;
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg transition-shadow duration-300 flex flex-col
 }
-.flagcard-grid{
-  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4
+.flagcard:hover {
+  @apply shadow-xl;
+}
+.flagcard-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6
 }
 
-.flagcard-image {
-  @apply w-full aspect-[4/3] bg-gray-100 flex items-center justify-center rounded-t-xl overflow-hidden;
+.flagcard-image-container {
+  @apply w-72 h-32 flex items-center justify-center bg-white rounded overflow-hidden mb-1;
 }
 
-.flagcard-image img {
-  @apply w-full h-full object-contain rounded-lg;
+.flagcard-image-container img {
+  @apply max-w-full max-h-full object-contain border-3 border-gray-800 rounded-lg
 }
 
 .flagcard-content {
-  @apply flex flex-col items-center justify-between flex-grow w-full p-3;
+  @apply flex flex-col items-center justify-between flex-grow w-full  border-t border-gray-200
 }
 
 .flagcard-content h2 {
-  @apply text-lg font-semibold text-gray-800;
+  @apply text-lg font-semibold text-gray-800 pt-1 pb-2 
 }
 
 .flagcard-badge {
-  @apply mt-auto mb-2;
+  @apply self-end mt-auto -mr-4 mb-3;
 }
+
+/*Filter*/
+
 .filter-form {
   @apply flex items-center justify-between gap-4 p-4 mb-6;
 }
