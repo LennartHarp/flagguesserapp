@@ -11,7 +11,7 @@ defmodule FlagguesserappWeb.FlagLive.Show do
        <img src={@flag.image_path} class="rounded-lg shadow-lg border-2 border-gray-300" />
       <:actions>
         <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
-          <.link navigate={~p"/flags/#{@flag}/edit?return_to=show"}>
+          <.link navigate={~p"/admin/flags/#{@flag}/edit?return_to=show"}>
             Edit flag
           </.link>
         </.button>
@@ -32,7 +32,7 @@ defmodule FlagguesserappWeb.FlagLive.Show do
       <:item title="Image path">{@flag.image_path}</:item>
     </.list>
 
-    <.back navigate={~p"/flags"}>Back to flags</.back>
+    <.back navigate={~p"/admin/flags"}>Back to flags</.back>
     """
   end
 

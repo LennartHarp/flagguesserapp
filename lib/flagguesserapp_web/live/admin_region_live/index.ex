@@ -32,7 +32,7 @@ defmodule FlagguesserappWeb.AdminRegionLive.Index do
         <div class="sr-only">
           <.link navigate={~p"/regions/#{region}"}>Show</.link>
         </div>
-         <.link navigate={~p"/regions/#{region}/edit"}>Edit</.link>
+         <.link navigate={~p"/admin/regions/#{region}/edit"}>Edit</.link>
       </:action>
       
       <:action :let={{id, region}}>

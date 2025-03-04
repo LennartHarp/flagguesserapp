@@ -97,6 +97,6 @@ defmodule FlagguesserappWeb.FlagLive.Form do
     end
   end
 
-  defp return_path("index", _flag), do: ~p"/flags"
+  defp return_path("index", _flag), do: ~p"/admin/flags"
   defp return_path("show", flag), do: ~p"/flags/#{flag}"
 end

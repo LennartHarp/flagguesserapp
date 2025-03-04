@@ -12,16 +12,18 @@ defmodule FlagguesserappWeb.CustomComponents do
     ~H"""
     <div class="quizcard">
       <div class="flex justify-center">
-        <%= if @flag do %>
-          <div class="quizcard-image-container">
-            <img src={@flag.image_path} alt="Flag" />
-          </div>
-           {render_slot(@content)}
-        <% else %>
-          <div class="quizcard-score">
-            {render_slot(@result)}
-          </div>
-        <% end %>
+        <div>
+          <%= if @flag do %>
+            <div class="quizcard-image-container">
+              <img src={@flag.image_path} alt="Flag" />
+            </div>
+             {render_slot(@content)}
+          <% else %>
+            <div class="quizcard-score">
+              {render_slot(@result)}
+            </div>
+          <% end %>
+        </div>
       </div>
       
       <div class="pt-3">

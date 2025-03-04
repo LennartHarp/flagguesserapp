@@ -13,7 +13,7 @@ defmodule FlagguesserappWeb.RegionLive.Show do
       
       <:actions>
         <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
-          <.link navigate={~p"/regions/#{@region}/edit?return_to=show"}>
+          <.link navigate={~p"/admin/regions/#{@region}/edit?return_to=show"}>
             Edit region
           </.link>
         </.button>
@@ -36,7 +36,7 @@ defmodule FlagguesserappWeb.RegionLive.Show do
       </div>
     </section>
 
-    <.back navigate={~p"/regions"}>Back to regions</.back>
+    <.back navigate={~p"/admin/regions"}>Back to regions</.back>
     """
   end
 

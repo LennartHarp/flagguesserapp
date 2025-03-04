@@ -32,7 +32,7 @@ defmodule FlagguesserappWeb.AdminFlagLive.Index do
         <div class="sr-only">
           <.link navigate={~p"/flags/#{flag}"}>Show</.link>
         </div>
-         <.link navigate={~p"/flags/#{flag}/edit"}>Edit</.link>
+         <.link navigate={~p"/admin/flags/#{flag}/edit"}>Edit</.link>
       </:action>
       
       <:action :let={{id, flag}}>

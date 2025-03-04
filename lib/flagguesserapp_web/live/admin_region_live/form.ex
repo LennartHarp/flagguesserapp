@@ -90,6 +90,6 @@ defmodule FlagguesserappWeb.AdminRegionLive.Form do
     end
   end
 
-  defp return_path("index", _region), do: ~p"/regions"
+  defp return_path("index", _region), do: ~p"/admin/regions"
   defp return_path("show", region), do: ~p"/regions/#{region}"
 end
