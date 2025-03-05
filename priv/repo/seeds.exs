@@ -3,27 +3,27 @@ alias Flagguesserapp.Flags.Flag
 alias Flagguesserapp.Repo
 
 africa =
-  %Region{name: "Africa", slug: "africa"}
+  %Region{name: "Africa", slug: "africa", image_path: "/images/africa.svg"}
   |> Repo.insert!()
 
 asia =
-  %Region{name: "Asia", slug: "asia"}
+  %Region{name: "Asia", slug: "asia", image_path: "/images/asia.svg"}
   |> Repo.insert!()
 
 europe =
-  %Region{name: "Europe", slug: "europe"}
+  %Region{name: "Europe", slug: "europe", image_path: "/images/europe.svg"}
   |> Repo.insert!()
 
 northamerica =
-  %Region{name: "North America", slug: "north-america"}
+  %Region{name: "North America", slug: "north-america", image_path: "/images/north-america.svg"}
   |> Repo.insert!()
 
 sourthamerica =
-  %Region{name: "South America", slug: "south-america"}
+  %Region{name: "South America", slug: "south-america", image_path: "/images/south-america.svg"}
   |> Repo.insert!()
 
 oceania =
-  %Region{name: "Oceania", slug: "oceania"}
+  %Region{name: "Oceania", slug: "oceania", image_path: "/images/oceania.svg"}
   |> Repo.insert!()
 
 [
