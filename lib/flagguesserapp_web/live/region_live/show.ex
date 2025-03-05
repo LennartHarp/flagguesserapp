@@ -20,13 +20,13 @@ defmodule FlagguesserappWeb.RegionLive.Show do
       </:actions>
     </.header>
 
-    <.list>
+    <.display image_path="/images/africa.svg">
       <:item title="Name">{@region.name}</:item>
       
       <:item title="Slug">{@region.slug}</:item>
       
       <:item title="Image path">{@region.image_path}</:item>
-    </.list>
+    </.display>
 
     <section class="mt-12">
       <h2 class="text-lg font-semibold leading-8 text-zinc-800">Nations</h2>
