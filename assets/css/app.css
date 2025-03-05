@@ -69,7 +69,7 @@
   @apply max-w-full max-h-full object-contain border-4 border-gray-800 rounded-lg
 }
 .quizcard-image-container {
-  @apply w-64 h-32 flex items-center justify-center pb-4 bg-white rounded overflow-hidden;
+  @apply w-64 h-32 flex items-center justify-center pb-4 rounded overflow-hidden;
 }
 .quizcard-button{
   @apply flex flex-col space-y-3 p-1
