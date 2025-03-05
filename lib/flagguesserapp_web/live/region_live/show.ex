@@ -20,7 +20,7 @@ defmodule FlagguesserappWeb.RegionLive.Show do
       </:actions>
     </.header>
 
-    <.display image_path="/images/africa.svg">
+    <.display image_path={@region.image_path}>
       <:item title="Name">{@region.name}</:item>
       
       <:item title="Slug">{@region.slug}</:item>
