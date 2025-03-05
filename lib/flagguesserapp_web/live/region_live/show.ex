@@ -29,8 +29,8 @@ defmodule FlagguesserappWeb.RegionLive.Show do
     </.list>
 
     <section class="mt-12">
-      <h4 class="estimator">Flags</h4>
-       <div class="border-b-2 border-gray-400" />
+      <h2 class="text-lg font-semibold leading-8 text-zinc-800">Nations</h2>
+       <div class="border-t border-zinc-100 mb-6" />
       <div class="flagcard-grid">
         <.flag_simple_card :for={flag <- @region.flags} flag={flag} />
       </div>

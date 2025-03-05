@@ -92,8 +92,10 @@ defmodule FlagguesserappWeb.CustomComponents do
     ~H"""
     <.link navigate={~p"/flags/#{@flag}"}>
       <div class="flagcard">
-        <div class="flagcard-image">
-          <img src={@flag.image_path} alt={@flag.name} />
+        <div class="flex justify-center">
+          <div class="flagcard-image-container">
+            <img src={@flag.image_path} alt={@flag.name} />
+          </div>
         </div>
         
         <div class="flagcard-content">
