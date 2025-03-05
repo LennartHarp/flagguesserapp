@@ -104,7 +104,7 @@
 }
 
 .flagcard-image-container img {
-  @apply max-w-full max-h-full object-contain border-3 border-gray-800 rounded-lg
+  @apply max-w-full max-h-full object-contain border-2 border-gray-800 rounded-lg
 }
 
 .flagcard-content {
@@ -119,6 +119,14 @@
   @apply self-end mt-auto -mr-4 mb-3;
 }
 
+/* Display */
+.display-image {
+  @apply w-72 h-32 flex items-center justify-center bg-white rounded overflow-hidden mb-1;
+}
+
+.display-image img {
+  @apply max-w-full max-h-full object-contain border-2 border-gray-800 rounded-lg
+}
 /*Filter*/
 
 .filter-form {

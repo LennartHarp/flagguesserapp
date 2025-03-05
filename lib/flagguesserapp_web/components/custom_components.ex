@@ -145,4 +145,28 @@ defmodule FlagguesserappWeb.CustomComponents do
     </div>
     """
   end
+
+  slot :item, required: true do
+    attr :title, :string, required: true
+  end
+
+  attr :image_path, :string, required: true
+
+  def display(assigns) do
+    ~H"""
+    <div class="flex flex-row gap-4">
+      <div class="display-image">
+        <img src={@image_path} />
+      </div>
+      
+      <dl class="w-2/3 -my-4 divide-y divide-zinc-100">
+        <div :for={item <- @item} class="flex gap-4 py-4 text-sm leading-6 sm:gap-8">
+          <dt class="w-1/4 flex-none text-zinc-500">{item.title}</dt>
+          
+          <dd class="text-zinc-700">{render_slot(item)}</dd>
+        </div>
+      </dl>
+    </div>
+    """
+  end
 end
