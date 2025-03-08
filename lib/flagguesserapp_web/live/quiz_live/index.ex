@@ -2,7 +2,8 @@ defmodule FlagguesserappWeb.QuizLive.Index do
   use FlagguesserappWeb, :live_view
 
   alias Flagguesserapp.Regions
-  alias Flagguesserapp.Flags.Flag
+  alias FlagguesserappWeb.QuizLive.JSInteractions
+
   import FlagguesserappWeb.CustomComponents
 
   def render(assigns) do
@@ -20,7 +21,9 @@ defmodule FlagguesserappWeb.QuizLive.Index do
           }>
             <button
               id={"quiz-choice-button-#{index}"}
-              phx-click={show_answer(@current_flag == flag, "quiz-choice-button-#{index}")}
+              phx-click={
+                JSInteractions.show_answer(@current_flag == flag, "quiz-choice-button-#{index}")
+              }
               phx-value-name={flag.name}
               class="transition-colors duration-300"
             >
@@ -28,7 +31,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
             </button>
           </div>
           
-          <button id="quiz-next_button" phx-click={hide_answer()} class="hidden">
+          <button id="quiz-next_button" phx-click={JSInteractions.hide_answer()} class="hidden">
             Next
           </button>
         </div>
@@ -36,22 +39,39 @@ defmodule FlagguesserappWeb.QuizLive.Index do
       
       <:result>
         You've got: {@score_index}/{Enum.count(@region.flags)}!
+        <button phx-click={JSInteractions.show_results()}>
+          <h4>Show Answers <.icon name="hero-chevron-double-down" /></h4>
+        </button>
       </:result>
       
       <:actions>
         <div class="quizcard-action">
-          <button id="quiz-retry-button" phx-click="retry" data-confirm={toggle_retry(@current_flag)}>
+          <button
+            id="quiz-retry-button"
+            phx-click="retry"
+            data-confirm={JSInteractions.toggle_retry(@current_flag)}
+          >
             <.icon name="hero-arrow-path" />
           </button>
           
           <h1>{@score_index}/{Enum.count(@region.flags)}</h1>
           
-          <button phx-click={hide_answer()}>
+          <button phx-click={JSInteractions.hide_answer()}>
             <.icon name="hero-arrow-right-circle" />
           </button>
         </div>
       </:actions>
     </.quiz_card>
+
+    <div id="results" class="hidden mt-12">
+      <div class="flagcard-grid">
+        <.flag_simple_card
+          :for={flag <- @region.flags}
+          flag={flag}
+          class={JSInteractions.toggle_result_color(flag in @score)}
+        />
+      </div>
+    </div>
     """
   end
 
@@ -71,6 +91,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
       |> assign(:region, region)
       |> assign(:current_index, 0)
       |> assign(:score_index, 0)
+      |> assign(:score, [])
       |> assign(:current_flag, Enum.at(region.flags, 0))
 
     {:noreply, socket}
@@ -81,6 +102,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
     socket =
       socket
       |> update(:score_index, &(&1 + 1))
+      |> update(:score, &[socket.assigns.current_flag | &1])
 
     {:noreply, socket}
   end
@@ -95,8 +117,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
   end
 
   def handle_event("next", _params, socket) do
-    socket = load_next(socket)
-    {:noreply, socket}
+    {:noreply, load_next(socket)}
   end
 
   def handle_event("retry", _params, socket) do
@@ -110,41 +131,5 @@ defmodule FlagguesserappWeb.QuizLive.Index do
       :current_flag,
       Enum.at(socket.assigns[:region].flags, socket.assigns[:current_index] + 1)
     )
-  end
-
-  defp show_answer(is_correct, dom_id) do
-    JS.push("check_answer")
-    |> JS.show(
-      to: "#quiz-next_button",
-      transition: {"ease-out duration-300", "opacity-0", "opacity-100"}
-    )
-    |> JS.toggle_class(toggle_button_color(is_correct), to: "##{dom_id}")
-    |> JS.set_attribute({"disabled", "true"}, to: "[id^='quiz-choice-button-']")
-  end
-
-  defp hide_answer() do
-    JS.push("next")
-    |> JS.hide(
-      to: "#quiz-next_button",
-      transition: {"ease-out duration-300", "opacity-100", "opacity-0"}
-    )
-    |> JS.remove_class("!bg-green-500 !bg-red-500", to: "[id^='quiz-choice-button-']")
-    |> JS.remove_attribute("disabled", to: "[id^='quiz-choice-button-']")
-  end
-
-  defp toggle_button_color(true) do
-    "!bg-green-500"
-  end
-
-  defp toggle_button_color(false) do
-    "!bg-red-500"
-  end
-
-  defp toggle_retry(nil) do
-    ""
-  end
-
-  defp toggle_retry(%Flag{}) do
-    "Do you really want to retry?"
   end
 end
