@@ -38,8 +38,8 @@ defmodule FlagguesserappWeb.CustomComponents do
   def background(assigns) do
     ~H"""
     <div
-      class="absolute inset-x-0 bottom-0 h-full -z-10 bg-cover bg-center"
-      style={"background-image: url(#{@image_path})"}
+      class="fixed inset-0 -z-10 bg-cover bg-center"
+      style={"background-image: url(#{@image_path}); background-repeat: repeat-y;"}
     />
     """
   end
@@ -87,19 +87,22 @@ defmodule FlagguesserappWeb.CustomComponents do
   end
 
   attr :flag, Flagguesserapp.Flags.Flag, required: true
+  attr :class, :string, default: nil
 
   def flag_simple_card(assigns) do
     ~H"""
     <.link navigate={~p"/flags/#{@flag}"}>
-      <div class="flagcard">
-        <div class="flex justify-center">
-          <div class="flagcard-image-container">
-            <img src={@flag.image_path} alt={@flag.name} />
+      <div class={@class}>
+        <div class="flagcard">
+          <div class="flex justify-center">
+            <div class="flagcard-image-container">
+              <img src={@flag.image_path} alt={@flag.name} />
+            </div>
           </div>
-        </div>
-        
-        <div class="flagcard-content">
-          <h2>{@flag.name}</h2>
+          
+          <div class="flagcard-content">
+            <h2>{@flag.name}</h2>
+          </div>
         </div>
       </div>
     </.link>
