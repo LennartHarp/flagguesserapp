@@ -8,26 +8,31 @@ defmodule FlagguesserappWeb.AdminFlagLive.Form do
   @impl true
   def render(assigns) do
     ~H"""
-    <.header>
-      {@page_title}
-      <:subtitle>Use this form to manage flag records in your database.</:subtitle>
-    </.header>
-
-    <.simple_form for={@form} id="flag-form" phx-change="validate" phx-submit="save">
-      <.input field={@form[:name]} type="text" label="Name" />
-      <.input
-        field={@form[:region_id]}
-        type="select"
-        label="Region"
-        prompt="Choose a Region"
-        options={@region_options}
-      /> <.input field={@form[:image_path]} type="text" label="Image path" />
-      <:actions>
-        <.button phx-disable-with="Saving...">Save Flag</.button>
-      </:actions>
-    </.simple_form>
-
-    <.back navigate={return_path(@return_to, @flag)}>Back</.back>
+    <div class="bg-white rounded p-4">
+      <.header>
+        <div class="text-xl font-extrabold">
+          {@page_title}
+        </div>
+        
+        <:subtitle>Use this form to manage flag records in your database.</:subtitle>
+      </.header>
+      
+      <.simple_form for={@form} id="flag-form" phx-change="validate" phx-submit="save">
+        <.input field={@form[:name]} type="text" label="Name" />
+        <.input
+          field={@form[:region_id]}
+          type="select"
+          label="Region"
+          prompt="Choose a Region"
+          options={@region_options}
+        /> <.input field={@form[:image_path]} type="text" label="Image path" />
+        <:actions>
+          <.back navigate={return_path(@return_to, @flag)} class="mt-0">Back</.back>
+          
+          <.button phx-disable-with="Saving...">Save Flag</.button>
+        </:actions>
+      </.simple_form>
+    </div>
     """
   end
 

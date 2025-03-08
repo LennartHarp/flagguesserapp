@@ -7,36 +7,44 @@ defmodule FlagguesserappWeb.RegionLive.Show do
   @impl true
   def render(assigns) do
     ~H"""
-    <.header>
-      {@region.name}
-      <:subtitle>This is a region record from your database.</:subtitle>
+    <div class="bg-white rounded p-4">
+      <.header>
+        {@region.name}
+        <:subtitle>This is a region record from your database.</:subtitle>
+        
+        <:actions>
+          <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
+            <.link navigate={~p"/admin/regions/#{@region}/edit?return_to=show"}>
+              Edit region
+            </.link>
+          </.button>
+        </:actions>
+      </.header>
       
-      <:actions>
-        <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
-          <.link navigate={~p"/admin/regions/#{@region}/edit?return_to=show"}>
-            Edit region
-          </.link>
-        </.button>
-      </:actions>
-    </.header>
+      <.display image_path={@region.image_path}>
+        <:item title="Name">{@region.name}</:item>
+        
+        <:item title="Slug">{@region.slug}</:item>
+        
+        <:item title="Image path">{@region.image_path}</:item>
+      </.display>
+    </div>
 
-    <.display image_path={@region.image_path}>
-      <:item title="Name">{@region.name}</:item>
-      
-      <:item title="Slug">{@region.slug}</:item>
-      
-      <:item title="Image path">{@region.image_path}</:item>
-    </.display>
+    <div class="bg-white rounded p-4 m-2">
+      <h2 class="text-lg font-extrabold leading-8 text-zinc-800 flex justify-center">
+        Related Countries
+      </h2>
+    </div>
 
-    <section class="mt-12">
-      <h2 class="text-lg font-semibold leading-8 text-zinc-800">Nations</h2>
-       <div class="border-t border-zinc-100 mb-6" />
+    <section class="mt-2">
       <div class="flagcard-grid">
         <.flag_simple_card :for={flag <- @region.flags} flag={flag} />
       </div>
     </section>
 
-    <.back navigate={~p"/admin/regions"}>Back to regions</.back>
+    <div class="bg-white rounded p-4">
+      <.back navigate={~p"/admin/regions"}>Back to regions</.back>
+    </div>
     """
   end
 

@@ -8,7 +8,6 @@ defmodule FlagguesserappWeb.QuizLive.Index do
 
   def render(assigns) do
     ~H"""
-    <.background image_path="/images/flags_background.jpg" />
     <.quiz_card flag={@current_flag}>
       <:content>
         <div class="quizcard-button">

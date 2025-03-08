@@ -60,6 +60,8 @@
     background-color: #e3e3e3;
   }
 
+  /* Default*/
+
 /* Quizcard*/
 
 .quizcard {
@@ -130,25 +132,25 @@
 /*Filter*/
 
 .filter-form {
-  @apply flex items-center justify-between gap-4 p-4 mb-6;
+  @apply flex items-center justify-between gap-4 p-2 mb-6;
 }
 
 .filter-fields {
-  @apply flex flex-wrap gap-4 items-center flex-grow;
+  @apply flex flex-wrap gap-6 items-center flex-grow;
 }
 
 .filter-input,
 .filter-select {
-  @apply px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300;
-  height: 44px; /* Einheitliche Höhe für Eingabefelder */
-  min-width: 200px; /* Mindestbreite für Dropdowns und Textfelder */
+  @apply px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300;
+  height: 44px;
+  min-width: 200px;
 }
 
 .filter-reset {
-  @apply text-blue-500 hover:text-blue-700 underline font-medium;
-  height: 44px; /* Gleiche Höhe wie Eingabefelder */
-  line-height: 44px; /* Vertikale Zentrierung des Links */
-  white-space: nowrap; /* Verhindert Zeilenumbrüche beim Reset-Link */
+  @apply text-blue-500 hover:text-blue-700 underline font-medium mr-4;
+  height: 44px;
+  line-height: 44px;
+  white-space: nowrap;
 }
 
   /* Text Hover Link */

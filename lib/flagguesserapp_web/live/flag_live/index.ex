@@ -25,7 +25,10 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
 
   def render(assigns) do
     ~H"""
-    <.filter_form form={@form} region_options={@region_options} />
+    <div class="bg-white rounded">
+      <.filter_form form={@form} region_options={@region_options} />
+    </div>
+
     <div class="flagcard-grid" id="flags" phx-update="stream">
       <.flag_card :for={{dom_id, flag} <- @streams.flags} flag={flag} id={dom_id} />
     </div>

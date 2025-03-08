@@ -8,33 +8,35 @@ defmodule FlagguesserappWeb.FlagLive.Show do
   @impl true
   def render(assigns) do
     ~H"""
-    <.header class="flex items-center justify-center mb-8">
-      <h1 class="text-xl font-semibold">This is {@flag.name}'s flag!</h1>
+    <div class="bg-white rounded p-4">
+      <.header class="flex items-center justify-center mb-8">
+        <h1 class="text-xl font-semibold">This is {@flag.name}'s flag!</h1>
+        
+        <:actions>
+          <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
+            <.link navigate={~p"/admin/flags/#{@flag}/edit?return_to=show"}>
+              Edit flag
+            </.link>
+          </.button>
+        </:actions>
+      </.header>
       
-      <:actions>
-        <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
-          <.link navigate={~p"/admin/flags/#{@flag}/edit?return_to=show"}>
-            Edit flag
+      <.display image_path={@flag.image_path}>
+        <:item title="Name">{@flag.name}</:item>
+        
+        <:item title="Region">
+          <.link navigate={~p"/regions/#{@flag.region.id}"}>
+            <div class="link-hover">
+              {@flag.region.name}
+            </div>
           </.link>
-        </.button>
-      </:actions>
-    </.header>
-
-    <.display image_path={@flag.image_path}>
-      <:item title="Name">{@flag.name}</:item>
+        </:item>
+        
+        <:item title="Image path">{@flag.image_path}</:item>
+      </.display>
       
-      <:item title="Region">
-        <.link navigate={~p"/regions/#{@flag.region.id}"}>
-          <div class="link-hover">
-            {@flag.region.name}
-          </div>
-        </.link>
-      </:item>
-      
-      <:item title="Image path">{@flag.image_path}</:item>
-    </.display>
-
-    <.back navigate={~p"/admin/flags"}>Back to flags</.back>
+      <.back navigate={~p"/admin/flags"}>Back to flags</.back>
+    </div>
     """
   end
 

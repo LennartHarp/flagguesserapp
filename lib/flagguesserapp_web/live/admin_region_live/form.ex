@@ -7,21 +7,26 @@ defmodule FlagguesserappWeb.AdminRegionLive.Form do
   @impl true
   def render(assigns) do
     ~H"""
-    <.header>
-      {@page_title}
-      <:subtitle>Use this form to manage region records in your database.</:subtitle>
-    </.header>
-
-    <.simple_form for={@form} id="region-form" phx-change="validate" phx-submit="save">
-      <.input field={@form[:name]} type="text" label="Name" />
-      <.input field={@form[:slug]} type="text" label="Slug" />
-      <.input field={@form[:image_path]} type="text" label="Image path" />
-      <:actions>
-        <.button phx-disable-with="Saving...">Save Region</.button>
-      </:actions>
-    </.simple_form>
-
-    <.back navigate={return_path(@return_to, @region)}>Back</.back>
+    <div class="bg-white rounded p-4">
+      <.header>
+        <div class="text-xl font-extrabold">
+          {@page_title}
+        </div>
+        
+        <:subtitle>Use this form to manage region records in your database.</:subtitle>
+      </.header>
+      
+      <.simple_form for={@form} id="region-form" phx-change="validate" phx-submit="save">
+        <.input field={@form[:name]} type="text" label="Name" />
+        <.input field={@form[:slug]} type="text" label="Slug" />
+        <.input field={@form[:image_path]} type="text" label="Image path" />
+        <:actions>
+          <.back navigate={return_path(@return_to, @region)} class="mt-0">Back</.back>
+          
+          <.button phx-disable-with="Saving...">Save Region</.button>
+        </:actions>
+      </.simple_form>
+    </div>
     """
   end
 

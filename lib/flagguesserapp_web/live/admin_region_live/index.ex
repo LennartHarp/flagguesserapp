@@ -6,44 +6,52 @@ defmodule FlagguesserappWeb.AdminRegionLive.Index do
   @impl true
   def render(assigns) do
     ~H"""
-    <.header>
-      Listing Regions
-      <:actions>
-        <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
-          <.link navigate={~p"/regions/new"}>
-            New Region
-          </.link>
-        </.button>
-      </:actions>
-    </.header>
-
-    <.table
-      id="regions"
-      rows={@streams.regions}
-      row_click={fn {_id, region} -> JS.navigate(~p"/regions/#{region}") end}
-    >
-      <:col :let={{_id, region}} label="Name">{region.name}</:col>
-      
-      <:col :let={{_id, region}} label="Slug">{region.slug}</:col>
-      
-      <:col :let={{_id, region}} label="Image path">{region.image_path}</:col>
-      
-      <:action :let={{_id, region}}>
-        <div class="sr-only">
-          <.link navigate={~p"/regions/#{region}"}>Show</.link>
+    <div class="bg-white rounded p-4">
+      <.header>
+        <div class="text-xl font-extrabold">
+          Listing Regions
         </div>
-         <.link navigate={~p"/admin/regions/#{region}/edit"}>Edit</.link>
-      </:action>
+        
+        <:actions>
+          <.button
+            phx-click={JS.dispatch("click", to: {:inner, "a"})}
+            class="!bg-gray-100 hover:!bg-gray-200"
+          >
+            <.link navigate={~p"/admin/regions/new"}>
+              Create Region
+            </.link>
+          </.button>
+        </:actions>
+      </.header>
       
-      <:action :let={{id, region}}>
-        <.link
-          phx-click={JS.push("delete", value: %{id: region.id}) |> hide("##{id}")}
-          data-confirm="Are you sure?"
-        >
-          Delete
-        </.link>
-      </:action>
-    </.table>
+      <.table
+        id="regions"
+        rows={@streams.regions}
+        row_click={fn {_id, region} -> JS.navigate(~p"/regions/#{region}") end}
+      >
+        <:col :let={{_id, region}} label="Name">{region.name}</:col>
+        
+        <:col :let={{_id, region}} label="Slug">{region.slug}</:col>
+        
+        <:col :let={{_id, region}} label="Image path">{region.image_path}</:col>
+        
+        <:action :let={{_id, region}}>
+          <div class="sr-only">
+            <.link navigate={~p"/regions/#{region}"}>Show</.link>
+          </div>
+           <.link navigate={~p"/admin/regions/#{region}/edit"}>Edit</.link>
+        </:action>
+        
+        <:action :let={{id, region}}>
+          <.link
+            phx-click={JS.push("delete", value: %{id: region.id}) |> hide("##{id}")}
+            data-confirm="Are you sure?"
+          >
+            Delete
+          </.link>
+        </:action>
+      </.table>
+    </div>
     """
   end
 
