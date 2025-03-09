@@ -17,9 +17,7 @@ defmodule FlagguesserappWeb.Router do
   scope "/", FlagguesserappWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
-
-    live "/flags/overview", FlagLive.Overview, :index
+    live "/", FlagLive.Overview, :index
 
     live "/admin/flags", AdminFlagLive.Index, :index
     live "/admin/flags/new", AdminFlagLive.Form, :new

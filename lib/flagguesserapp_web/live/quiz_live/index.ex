@@ -112,7 +112,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
 
   def handle_event("next", _params, %{assigns: %{current_flag: flag}} = socket)
       when flag in [nil, ""] do
-    {:noreply, push_navigate(socket, to: ~p"/flags/overview")}
+    {:noreply, push_navigate(socket, to: ~p"/")}
   end
 
   def handle_event("next", _params, socket) do

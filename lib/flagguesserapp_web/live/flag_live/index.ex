@@ -66,7 +66,7 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
         />
       </div>
       
-      <.link patch={~p"/flags/overview/"} class="filter-reset">
+      <.link patch={~p"/"} class="filter-reset">
         Reset
       </.link>
     </.form>
@@ -79,7 +79,7 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
       |> Map.take(~w(q sort_by region))
       |> Map.reject(fn {_, v} -> v == "" end)
 
-    socket = push_patch(socket, to: ~p"/flags/overview/?#{params}")
+    socket = push_patch(socket, to: ~p"/?#{params}")
 
     {:noreply, socket}
   end
