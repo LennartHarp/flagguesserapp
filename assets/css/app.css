@@ -92,7 +92,7 @@
 
 /* Flagcard */
 .flagcard {
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg transition-shadow duration-300 flex flex-col
+  @apply mx-auto max-w-7xl px-6 py-2 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg transition-shadow duration-300 flex flex-col
 }
 .flagcard:hover {
   @apply shadow-xl;
