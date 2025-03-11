@@ -20,38 +20,25 @@
         </li>
         
         <li>
-          <.link
-            href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
+          <.link href={~p"/users/settings"} class="user-link">
             Settings
           </.link>
         </li>
         
         <li>
-          <.link
-            href={~p"/users/log-out"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
+          <.link href={~p"/users/log-out"} method="delete" class="user-link">
             Log out
           </.link>
         </li>
       <% else %>
         <li>
-          <.link
-            href={~p"/users/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
+          <.link href={~p"/users/register"} class="user-link">
             Register
           </.link>
         </li>
         
         <li>
-          <.link
-            href={~p"/users/log-in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
+          <.link href={~p"/users/log-in"} class="user-link">
             Log in
           </.link>
         </li>

@@ -1,4 +1,5 @@
 defmodule Flagguesserapp.Accounts.User do
+  alias Flagguesserapp.Repo
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -6,6 +7,7 @@ defmodule Flagguesserapp.Accounts.User do
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :username, :string
+    field :is_admin, :boolean
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
@@ -38,7 +40,7 @@ defmodule Flagguesserapp.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password, :username])
+    |> cast(attrs, [:email, :password, :username, :is_admin])
     |> validate_email(opts)
     |> validate_password(opts)
     |> validate_username
@@ -49,6 +51,7 @@ defmodule Flagguesserapp.Accounts.User do
     |> validate_required([:email])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
     |> validate_length(:email, max: 160)
+    |> unsafe_validate_unique(:email, Repo)
     |> maybe_validate_unique_email(opts)
   end
 
@@ -67,6 +70,8 @@ defmodule Flagguesserapp.Accounts.User do
     changeset
     |> validate_required([:username])
     |> validate_length(:username, min: 2, max: 10)
+    |> unsafe_validate_unique(:username, Repo)
+    |> unique_constraint(:username)
   end
 
   defp maybe_hash_password(changeset, opts) do

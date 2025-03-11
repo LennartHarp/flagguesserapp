@@ -13,6 +13,11 @@ defmodule FlagguesserappWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :admin do
+    plug :require_authenticated_user
+    plug :require_admin
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -22,19 +27,29 @@ defmodule FlagguesserappWeb.Router do
 
     live "/", FlagLive.Overview, :index
 
-    live "/admin/flags", AdminFlagLive.Index, :index
-    live "/admin/flags/new", AdminFlagLive.Form, :new
-
     live "/flags/:id", FlagLive.Show, :show
-    live "/admin/flags/:id/edit", AdminFlagLive.Form, :edit
 
     live "/quiz/:slug", QuizLive.Index, :index
 
-    live "/admin/regions", AdminRegionLive.Index, :index
-    live "/admin/regions/new", AdminRegionLive.Form, :new
-
     live "/regions/:id", RegionLive.Show, :show
-    live "/admin/regions/:id/edit", AdminRegionLive.Form, :edit
+  end
+
+  scope "/", FlagguesserappWeb do
+    pipe_through [:browser, :admin]
+
+    live_session :admin,
+      on_mount: {FlagguesserappWeb.UserAuth, :ensure_authenticated},
+      on_mount: {FlagguesserappWeb.UserAuth, :ensure_admin} do
+      live "/admin/flags", AdminFlagLive.Index, :index
+      live "/admin/flags/new", AdminFlagLive.Form, :new
+
+      live "/admin/flags/:id/edit", AdminFlagLive.Form, :edit
+
+      live "/admin/regions", AdminRegionLive.Index, :index
+      live "/admin/regions/new", AdminRegionLive.Form, :new
+
+      live "/admin/regions/:id/edit", AdminRegionLive.Form, :edit
+    end
   end
 
   # Other scopes may use custom stacks.
@@ -67,12 +82,12 @@ defmodule FlagguesserappWeb.Router do
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{FlagguesserappWeb.UserAuth, :redirect_if_user_is_authenticated}] do
       live "/users/register", UserRegistrationLive, :new
-      live "/users/log_in", UserLoginLive, :new
+      live "/users/log-in", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
       live "/users/reset_password/:token", UserResetPasswordLive, :edit
     end
 
-    post "/users/log_in", UserSessionController, :create
+    post "/users/log-in", UserSessionController, :create
   end
 
   scope "/", FlagguesserappWeb do
@@ -88,7 +103,7 @@ defmodule FlagguesserappWeb.Router do
   scope "/", FlagguesserappWeb do
     pipe_through [:browser]
 
-    delete "/users/log_out", UserSessionController, :delete
+    delete "/users/log-out", UserSessionController, :delete
 
     live_session :current_user,
       on_mount: [{FlagguesserappWeb.UserAuth, :mount_current_user}] do

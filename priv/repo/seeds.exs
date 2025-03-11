@@ -1,3 +1,4 @@
+alias Flagguesserapp.Accounts.User
 alias Flagguesserapp.Regions.Region
 alias Flagguesserapp.Flags.Flag
 alias Flagguesserapp.Repo
@@ -24,6 +25,25 @@ sourthamerica =
 
 oceania =
   %Region{name: "Oceania", slug: "oceania", image_path: "/images/oceania.svg"}
+  |> Repo.insert!()
+
+test_user =
+  %User{}
+  |> User.registration_changeset(%{
+    username: "Lennart",
+    email: "lennart@example.com",
+    password: "111111111111"
+  })
+  |> Repo.insert!()
+
+test_admin_user =
+  %User{}
+  |> User.registration_changeset(%{
+    username: "Bob",
+    email: "lennart@admin.com",
+    password: "111111111111",
+    is_admin: true
+  })
   |> Repo.insert!()
 
 [

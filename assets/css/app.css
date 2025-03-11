@@ -5,6 +5,12 @@
 /* This file is for your main application CSS */
 
 @layer components {
+
+/* Layout */
+.user-link {
+  @apply text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700
+}
+
 /* Sidebar */
     .layout-container {
       position: relative;
