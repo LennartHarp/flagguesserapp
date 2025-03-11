@@ -145,6 +145,7 @@ defmodule FlagguesserappWeb.UserAuth do
         live "/profile", ProfileLive, :index
       end
   """
+
   def on_mount(:mount_current_user, _params, session, socket) do
     {:cont, mount_current_user(socket, session)}
   end
@@ -158,7 +159,7 @@ defmodule FlagguesserappWeb.UserAuth do
       socket =
         socket
         |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
-        |> Phoenix.LiveView.redirect(to: ~p"/users/log_in")
+        |> Phoenix.LiveView.redirect(to: ~p"/users/log-in")
 
       {:halt, socket}
     end
@@ -171,6 +172,32 @@ defmodule FlagguesserappWeb.UserAuth do
       {:halt, Phoenix.LiveView.redirect(socket, to: signed_in_path(socket))}
     else
       {:cont, socket}
+    end
+  end
+
+  def on_mount(:ensure_admin, _params, session, socket) do
+    socket = mount_current_user(socket, session)
+
+    if socket.assgns.current_user.is_admin do
+      {:cont, socket}
+    else
+      socket =
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "Only admins allowed!")
+        |> Phoenix.LiveView.redirect(to: ~p"/users/log-in")
+
+      {:halt, socket}
+    end
+  end
+
+  def require_admin(conn, _opts) do
+    if conn.assigns[:current_user].is_admin do
+      conn
+    else
+      conn
+      |> put_flash(:error, "only admins allowed!")
+      |> redirect(to: ~p"/")
+      |> halt()
     end
   end
 
@@ -208,7 +235,7 @@ defmodule FlagguesserappWeb.UserAuth do
       conn
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
-      |> redirect(to: ~p"/users/log_in")
+      |> redirect(to: ~p"/users/log-in")
       |> halt()
     end
   end
