@@ -13,11 +13,13 @@ defmodule FlagguesserappWeb.FlagLive.Show do
         <h1 class="text-xl font-semibold">This is {@flag.name}'s flag!</h1>
         
         <:actions>
-          <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
-            <.link navigate={~p"/admin/flags/#{@flag}/edit?return_to=show"}>
-              Edit flag
-            </.link>
-          </.button>
+          <%= if @current_user && @current_user.is_admin do %>
+            <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
+              <.link navigate={~p"/admin/flags/#{@flag}/edit?return_to=show"}>
+                Edit flag
+              </.link>
+            </.button>
+          <% end %>
         </:actions>
       </.header>
       
@@ -35,7 +37,7 @@ defmodule FlagguesserappWeb.FlagLive.Show do
         <:item title="Image path">{@flag.image_path}</:item>
       </.display>
       
-      <.back navigate={~p"/admin/flags"}>Back to flags</.back>
+      <.back navigate={~p"/"}>Back to flags</.back>
     </div>
     """
   end

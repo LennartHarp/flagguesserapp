@@ -13,11 +13,13 @@ defmodule FlagguesserappWeb.RegionLive.Show do
         <:subtitle>This is a region record from your database.</:subtitle>
         
         <:actions>
-          <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
-            <.link navigate={~p"/admin/regions/#{@region}/edit?return_to=show"}>
-              Edit region
-            </.link>
-          </.button>
+          <%= if @current_user && @current_user.is_admin do %>
+            <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
+              <.link navigate={~p"/admin/regions/#{@region}/edit?return_to=show"}>
+                Edit region
+              </.link>
+            </.button>
+          <% end %>
         </:actions>
       </.header>
       

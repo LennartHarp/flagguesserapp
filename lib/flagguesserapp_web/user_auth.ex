@@ -178,7 +178,7 @@ defmodule FlagguesserappWeb.UserAuth do
   def on_mount(:ensure_admin, _params, session, socket) do
     socket = mount_current_user(socket, session)
 
-    if socket.assgns.current_user.is_admin do
+    if socket.assigns.current_user.is_admin do
       {:cont, socket}
     else
       socket =
@@ -195,7 +195,7 @@ defmodule FlagguesserappWeb.UserAuth do
       conn
     else
       conn
-      |> put_flash(:error, "only admins allowed!")
+      |> put_flash(:error, "Only admins allowed!")
       |> redirect(to: ~p"/")
       |> halt()
     end

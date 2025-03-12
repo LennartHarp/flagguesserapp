@@ -1,35 +1,35 @@
-<div class="grid grid-rows-[auto_1fr] min-h-screen">
-  <header class="fixed w-screen z-50 px-4 sm:px-6 lg:px-8 bg-white/50">
-    <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
-      <div class="flex items-center gap-4"></div>
-      
-      <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
+<header class="grid grid-rows-[auto_1fr] fixed w-screen z-40 px-4 sm:px-6 lg:px-8 bg-white/50 pt-6">
+  <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
+    <div class="flex items-center gap-4"></div>
+    
+    <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
+      <%= if @current_user && @current_user.is_admin do %>
         <.link navigate={~p"/admin/flags/"}>Flags Admin</.link>
-        <.link navigate={~p"/"}>Flag Overview</.link>
         <.link navigate={~p"/admin/regions"}>Regions Admin</.link>
-        <.side_bar>
-          <:banner>
-            <div class="flex items-center">
-              <h2 class="mr-2">Flag Guesser</h2>
-               <.icon name="hero-map-pin" class="w-6 h-6" />
-            </div>
-          </:banner>
-          
-          <:navbar>
-            <.region_list />
-          </:navbar>
-          
-          <div class="absolute bottom-4 left-4">
-            <.link class="text-sm text-gray-500 hover:underline">Impressum</.link>
+      <% end %>
+       <.link navigate={~p"/"}>Flag Overview</.link>
+      <.side_bar>
+        <:banner>
+          <div class="flex items-center">
+            <h2 class="mr-2">Flag Guesser</h2>
+             <.icon name="hero-map-pin" class="w-6 h-6" />
           </div>
-        </.side_bar>
-      </div>
+        </:banner>
+        
+        <:navbar>
+          <.region_list />
+        </:navbar>
+        
+        <div class="absolute bottom-4 left-4">
+          <.link class="text-sm text-gray-500 hover:underline">Impressum</.link>
+        </div>
+      </.side_bar>
     </div>
-  </header>
-  
-  <main class="px-4 sm:px-6 lg:px-8 pt-20">
-    <div class="mx-auto max-w-2xl">
-      <.flash_group flash={@flash} /> {@inner_content}
-    </div>
-  </main>
-</div>
+  </div>
+</header>
+
+<main class="px-4 sm:px-6 lg:px-8 pt-28">
+  <div class="mx-auto max-w-2xl">
+    <.flash_group flash={@flash} /> {@inner_content}
+  </div>
+</main>
