@@ -25,19 +25,23 @@ defmodule FlagguesserappWeb.Router do
   scope "/", FlagguesserappWeb do
     pipe_through :browser
 
-    live "/", FlagLive.Overview, :index
+    live_session :browser,
+      on_mount: {FlagguesserappWeb.UserAuth, :mount_current_user} do
+      live "/", FlagLive.Overview, :index
 
-    live "/flags/:id", FlagLive.Show, :show
+      live "/flags/:id", FlagLive.Show, :show
 
-    live "/quiz/:slug", QuizLive.Index, :index
+      live "/quiz/:slug", QuizLive.Index, :index
 
-    live "/regions/:id", RegionLive.Show, :show
+      live "/regions/:id", RegionLive.Show, :show
+    end
   end
 
   scope "/", FlagguesserappWeb do
     pipe_through [:browser, :admin]
 
     live_session :admin,
+      on_mount: {FlagguesserappWeb.UserAuth, :mount_current_user},
       on_mount: {FlagguesserappWeb.UserAuth, :ensure_authenticated},
       on_mount: {FlagguesserappWeb.UserAuth, :ensure_admin} do
       live "/admin/flags", AdminFlagLive.Index, :index
