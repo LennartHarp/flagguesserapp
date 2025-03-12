@@ -115,7 +115,7 @@ defmodule FlagguesserappWeb.CustomComponents do
   def side_bar(assigns) do
     ~H"""
     <div class="relative">
-      <div id="sidebar" class="sidebar hidden">
+      <div id="sidebar" class="sidebar hidden" phx-click-away={toggle_side_bar()}>
         <div class="sidebar-banner">
           {render_slot(@banner)}
         </div>
