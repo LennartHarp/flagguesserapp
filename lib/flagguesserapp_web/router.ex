@@ -53,6 +53,11 @@ defmodule FlagguesserappWeb.Router do
       live "/admin/regions/new", AdminRegionLive.Form, :new
 
       live "/admin/regions/:id/edit", AdminRegionLive.Form, :edit
+
+      live "/admin/users", AdminUserLive.Index, :index
+      live "/admin/users/new", AdminUserLive.Form, :new
+
+      live "/admin/users/:id/edit", AdminUserLive.Form, :edit
     end
   end
 

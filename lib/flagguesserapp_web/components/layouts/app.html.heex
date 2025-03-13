@@ -6,6 +6,7 @@
       <%= if @current_user && @current_user.is_admin do %>
         <.link navigate={~p"/admin/flags/"}>Flags Admin</.link>
         <.link navigate={~p"/admin/regions"}>Regions Admin</.link>
+        <.link navigate={~p"/admin/users"}>Users Admin</.link>
       <% end %>
        <.link navigate={~p"/"}>Flag Overview</.link>
       <.side_bar>

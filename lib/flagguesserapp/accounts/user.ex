@@ -141,6 +141,13 @@ defmodule Flagguesserapp.Accounts.User do
     change(user, confirmed_at: now)
   end
 
+  def user_admin_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:email, :username, :is_admin])
+    |> validate_email(opts)
+    |> validate_username
+  end
+
   @doc """
   Verifies the password.
 
