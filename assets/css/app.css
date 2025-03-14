@@ -73,20 +73,23 @@
 .quizcard {
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg pt-6 pr-6 pl-6 pb-2 w-80
 }
+.quizcard-content{
+  @apply flex justify-center flex-col
+}
 .quizcard img {
-  @apply max-w-full max-h-full object-contain border-4 border-gray-800 rounded-lg
+  @apply max-w-full max-h-full border-4 border-gray-800 rounded-lg 
 }
 .quizcard-image-container {
-  @apply w-64 h-32 flex items-center justify-center pb-4 rounded overflow-hidden;
+  @apply w-64 h-32 flex justify-center pb-4 rounded
 }
 .quizcard-button{
-  @apply flex flex-col space-y-3 p-1
+  @apply space-y-3 p-1
 }
 .quizcard-button button{
  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm w-full
 }
 .quizcard-action{
-    @apply flex justify-between border-t border-gray-200 p-1
+    @apply flex justify-between border-t border-gray-200 p-1 mt-2
   }
 .quizcard-action h1{
   @apply font-semibold 

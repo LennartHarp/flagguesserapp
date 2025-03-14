@@ -33,6 +33,23 @@ defmodule FlagguesserappWeb.CustomComponents do
     """
   end
 
+  slot :content
+  slot :actions
+
+  def quizcard(assigns) do
+    ~H"""
+    <div class="quizcard">
+      <div class="quizcard-content">
+        {render_slot(@content)}
+      </div>
+      
+      <div class="quizcard-action">
+        {render_slot(@actions)}
+      </div>
+    </div>
+    """
+  end
+
   attr :image_path, :string
 
   def background(assigns) do

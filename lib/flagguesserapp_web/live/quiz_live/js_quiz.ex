@@ -1,9 +1,9 @@
-defmodule FlagguesserappWeb.QuizLive.JSInteractions do
+defmodule FlagguesserappWeb.QuizLive.JSQuiz do
   alias Phoenix.LiveView.JS
   alias Flagguesserapp.Flags.Flag
 
-  def show_answer(is_correct, dom_id) do
-    JS.push("check_answer")
+  def show_answer(event, is_correct, dom_id) do
+    event
     |> JS.show(
       to: "#quiz-next_button",
       transition: {"ease-out duration-300", "opacity-0", "opacity-100"}
@@ -12,8 +12,8 @@ defmodule FlagguesserappWeb.QuizLive.JSInteractions do
     |> JS.set_attribute({"disabled", "true"}, to: "[id^='quiz-choice-button-']")
   end
 
-  def hide_answer() do
-    JS.push("next")
+  def hide_answer(event) do
+    event
     |> JS.hide(
       to: "#quiz-next_button",
       transition: {"ease-out duration-300", "opacity-100", "opacity-0"}
@@ -26,6 +26,13 @@ defmodule FlagguesserappWeb.QuizLive.JSInteractions do
     JS.show(
       to: "#results",
       transition: {"ease-out duration-1000", "opacity-0", "opacity-100"}
+    )
+  end
+
+  def hide_results() do
+    JS.hide(
+      to: "#results",
+      transition: {"ease-out duration-1000", "opacity-100", "opacity-0"}
     )
   end
 
