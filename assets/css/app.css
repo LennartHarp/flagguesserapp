@@ -66,7 +66,7 @@
     background-color: #e3e3e3;
   }
 
-  /* Default*/
+/* Default*/
 
 /* Quizcard*/
 
@@ -107,7 +107,7 @@
   @apply shadow-xl;
 }
 .flagcard-grid {
-  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 my-4
 }
 
 .flagcard-image-container {

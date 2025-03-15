@@ -31,11 +31,12 @@ defmodule Flagguesserapp.Flags do
     |> Enum.random()
   end
 
-  def filter_flags(filter) do
+  def filter_flags(filter, limit \\ nil) do
     Flag
     |> search_by(filter["q"])
     |> with_region(filter["region"])
     |> sort(filter["sort_by"])
+    |> limit_query(limit)
     |> Repo.all()
     |> Repo.preload(:region)
   end
@@ -72,6 +73,10 @@ defmodule Flagguesserapp.Flags do
   defp sort(query, _) do
     order_by(query, :id)
   end
+
+  defp limit_query(query, nil), do: query
+
+  defp limit_query(query, limit), do: query |> limit(^limit)
 
   @doc """
   Gets a single flag.

@@ -10,6 +10,7 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
     socket =
       socket
       |> assign(:region_options, Regions.region_names_and_slugs())
+      |> assign(:limit, 12)
 
     {:ok, socket}
   end
@@ -17,7 +18,7 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
   def handle_params(params, _uri, socket) do
     socket =
       socket
-      |> stream(:flags, Flags.filter_flags(params), reset: true)
+      |> stream(:flags, Flags.filter_flags(params, socket.assigns.limit), reset: true)
       |> assign(:form, to_form(params))
 
     {:noreply, socket}
@@ -25,13 +26,29 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
 
   def render(assigns) do
     ~H"""
-    <div class="bg-white rounded">
+    <div class="bg-white rounded-lg">
       <.filter_form form={@form} region_options={@region_options} />
     </div>
 
     <div class="flagcard-grid" id="flags" phx-update="stream">
       <.flag_card :for={{dom_id, flag} <- @streams.flags} flag={flag} id={dom_id} />
     </div>
+
+    <%= if Enum.count(@streams.flags) < Enum.count(Flags.filter_flags(@form.params)) do %>
+      <div class="flex justify-center">
+        <button
+          type="submit"
+          label="Show all"
+          phx-click={
+            JS.push("show_more")
+            |> JS.transition("opacity-100 translate-y-0", to: "#flags .flag-card")
+          }
+          class="bg-white rounded-lg px-4 py-2 my-4 font-semibold transition-transform hover:scale-105"
+        >
+          Show More <.icon name="hero-chevron-down" />
+        </button>
+      </div>
+    <% end %>
     """
   end
 
@@ -74,12 +91,32 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
   end
 
   def handle_event("filter", params, socket) do
+    socket =
+      socket
+      |> assign(:limit, 12)
+
     params =
       params
       |> Map.take(~w(q sort_by region))
       |> Map.reject(fn {_, v} -> v == "" end)
 
     socket = push_patch(socket, to: ~p"/?#{params}")
+
+    {:noreply, socket}
+  end
+
+  def handle_event("show_more", _params, socket) do
+    IO.inspect(socket.assigns.form)
+
+    params =
+      socket.assigns.form.params
+      |> Map.take(~w(q sort_by region))
+      |> Map.reject(fn {_, v} -> v == "" end)
+
+    socket =
+      socket
+      |> update(:limit, &(&1 + 6))
+      |> push_patch(to: ~p"/?#{params}")
 
     {:noreply, socket}
   end
