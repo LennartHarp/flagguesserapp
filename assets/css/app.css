@@ -71,7 +71,10 @@
 /* Quizcard*/
 
 .quizcard {
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg pt-6 pr-6 pl-6 pb-2 w-80
+  @apply relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg pt-6 pr-6 pl-6 pb-2 w-80 transition-opacity duration-300 delay-3000;
+}
+.quizcard.phx-click-loading{
+  @apply opacity-90 pointer-events-none
 }
 .quizcard-content{
   @apply flex justify-center flex-col
@@ -97,6 +100,14 @@
   
 .quizcard-score{
   @apply text-center text-2xl font-bold text-green-600
+}
+
+.quizcard-spinner {
+  @apply absolute inset-0 flex flex-col items-center justify-center delay-3000 transition-opacity duration-300 opacity-0 pointer-events-none;
+}
+
+.quizcard-spinner.phx-click-loading {
+  @apply opacity-100 pointer-events-auto;
 }
 
 /* Flagcard */

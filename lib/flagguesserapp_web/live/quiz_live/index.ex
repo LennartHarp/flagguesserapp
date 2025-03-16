@@ -20,7 +20,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
               <button
                 id={"quiz-choice-button-#{index}"}
                 phx-click={
-                  JS.push("check_answer")
+                  JS.push("validate")
                   |> JSQuiz.show_answer(@current_flag == flag, "quiz-choice-button-#{index}")
                 }
                 phx-value-name={flag.name}
@@ -31,8 +31,11 @@ defmodule FlagguesserappWeb.QuizLive.Index do
             <% end %>
             
             <button
-              id="quiz-next_button"
-              phx-click={JS.push("next") |> JSQuiz.hide_answer()}
+              id="quiz-next-button"
+              phx-click={
+                JS.push("next", loading: ["#quizcard", "#quiz-spinner"])
+                |> JSQuiz.hide_answer()
+              }
               class="hidden"
             >
               Next
@@ -62,7 +65,13 @@ defmodule FlagguesserappWeb.QuizLive.Index do
             {Enum.find_index(@region.flags, &(&1 == @current_flag)) + 1} / {Enum.count(@region.flags)}
           </h1>
           
-          <button phx-click={JS.push("next") |> JSQuiz.hide_answer()}>
+          <button
+            id="quiz-skip-button"
+            phx-click={
+              JS.push("next", loading: ["#quizcard", "#quiz-spinner"])
+              |> JSQuiz.hide_answer()
+            }
+          >
             <.icon name="hero-arrow-right-circle" />
           </button>
         <% else %>
@@ -108,7 +117,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
     {:noreply, socket}
   end
 
-  def handle_event("check_answer", %{"name" => name}, %{assigns: %{current_flag: flag}} = socket) do
+  def handle_event("validate", %{"name" => name}, %{assigns: %{current_flag: flag}} = socket) do
     if name == flag.name do
       {:noreply, update(socket, :score, &[flag | &1])}
     else
@@ -123,7 +132,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
       socket
       |> assign(:current_flag, Enum.at(region.flags, new_index))
 
-    {:noreply, socket}
+    {:noreply, push_event(socket, "enable_actions", %{})}
   end
 
   def handle_event("retry", _params, socket) do

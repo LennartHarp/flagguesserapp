@@ -5,21 +5,35 @@ defmodule FlagguesserappWeb.QuizLive.JSQuiz do
   def show_answer(event, is_correct, dom_id) do
     event
     |> JS.show(
-      to: "#quiz-next_button",
+      to: "#quiz-next-button",
       transition: {"ease-out duration-300", "opacity-0", "opacity-100"}
     )
     |> JS.toggle_class(toggle_button_color(is_correct), to: "##{dom_id}")
     |> JS.set_attribute({"disabled", "true"}, to: "[id^='quiz-choice-button-']")
+    |> enable_actions()
   end
 
   def hide_answer(event) do
     event
     |> JS.hide(
-      to: "#quiz-next_button",
+      to: "#quiz-next-button",
       transition: {"ease-out duration-300", "opacity-100", "opacity-0"}
     )
     |> JS.remove_class("!bg-green-500 !bg-red-500", to: "[id^='quiz-choice-button-']")
     |> JS.remove_attribute("disabled", to: "[id^='quiz-choice-button-']")
+    |> disable_actions()
+  end
+
+  def enable_actions(event \\ nil) do
+    event
+    |> JS.remove_attribute("disabled", to: "#quiz-skip-button")
+    |> JS.remove_attribute("disabled", to: "#quiz-retry-button")
+  end
+
+  def disable_actions(event \\ nil) do
+    event
+    |> JS.remove_attribute("disabled", to: "#quiz-skip-button")
+    |> JS.remove_attribute("disabled", to: "#quiz-retry-button")
   end
 
   def show_results() do
