@@ -15,6 +15,9 @@ module.exports = {
     extend: {
       colors: {
         brand: "#FD4F00",
+      },
+      transitionDelay: {
+        '3000': '3000ms',
       }
     },
   },

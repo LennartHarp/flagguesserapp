@@ -1,44 +1,17 @@
 defmodule FlagguesserappWeb.CustomComponents do
   alias Flagguesserapp.Regions
   use FlagguesserappWeb, :html
-  alias Flagguesserapp.Flags.Flag
-
-  attr :flag, Flag
-  slot :content
-  slot :actions
-  slot :result
-
-  def quiz_card(assigns) do
-    ~H"""
-    <div class="quizcard">
-      <div class="flex justify-center">
-        <div>
-          <%= if @flag do %>
-            <div class="quizcard-image-container">
-              <img src={@flag.image_path} alt="Flag" />
-            </div>
-             {render_slot(@content)}
-          <% else %>
-            <div class="quizcard-score">
-              {render_slot(@result)}
-            </div>
-          <% end %>
-        </div>
-      </div>
-      
-      <div class="pt-3">
-        {render_slot(@actions)}
-      </div>
-    </div>
-    """
-  end
 
   slot :content
   slot :actions
 
   def quizcard(assigns) do
     ~H"""
-    <div class="quizcard">
+    <div id="quizcard" class="quizcard">
+      <div id="quiz-spinner" class="quizcard-spinner">
+        <div class="spinner"></div>
+      </div>
+      
       <div class="quizcard-content">
         {render_slot(@content)}
       </div>
