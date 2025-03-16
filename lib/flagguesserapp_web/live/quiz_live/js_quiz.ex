@@ -24,13 +24,13 @@ defmodule FlagguesserappWeb.QuizLive.JSQuiz do
     |> disable_actions()
   end
 
-  def enable_actions(event \\ nil) do
+  def enable_actions(event) do
     event
     |> JS.remove_attribute("disabled", to: "#quiz-skip-button")
     |> JS.remove_attribute("disabled", to: "#quiz-retry-button")
   end
 
-  def disable_actions(event \\ nil) do
+  def disable_actions(event) do
     event
     |> JS.remove_attribute("disabled", to: "#quiz-skip-button")
     |> JS.remove_attribute("disabled", to: "#quiz-retry-button")
