@@ -54,7 +54,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
       <:actions>
         <button
           id="quiz-retry-button"
-          phx-click="retry"
+          phx-click={JS.push("retry") |> JSQuiz.hide_results()}
           data-confirm={JSQuiz.toggle_retry(@current_flag)}
         >
           <.icon name="hero-arrow-path" />
