@@ -29,7 +29,7 @@ defmodule FlagguesserappWeb.CustomComponents do
     ~H"""
     <div
       class="fixed inset-0 -z-10 bg-cover bg-center"
-      style={"background-image: url(#{@image_path}); background-repeat: repeat; width: 100vw; height: 100vh;"}
+      style={"background-image: url(#{@image_path}); background-repeat: repeat; width: 100vw; height: 100vh; opacity: 0.75;"}
     />
     """
   end
