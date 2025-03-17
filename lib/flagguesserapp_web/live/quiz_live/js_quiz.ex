@@ -2,7 +2,7 @@ defmodule FlagguesserappWeb.QuizLive.JSQuiz do
   alias Phoenix.LiveView.JS
   alias Flagguesserapp.Flags.Flag
 
-  def show_answer(event, is_correct, dom_id) do
+  def show_answer(event \\ %JS{}, is_correct, dom_id) do
     event
     |> JS.show(
       to: "#quiz-next-button",
@@ -13,7 +13,7 @@ defmodule FlagguesserappWeb.QuizLive.JSQuiz do
     |> enable_actions()
   end
 
-  def hide_answer(event) do
+  def hide_answer(event \\ %JS{}) do
     event
     |> JS.hide(
       to: "#quiz-next-button",
@@ -24,27 +24,29 @@ defmodule FlagguesserappWeb.QuizLive.JSQuiz do
     |> disable_actions()
   end
 
-  def enable_actions(event) do
+  def enable_actions(event \\ %JS{}) do
     event
     |> JS.remove_attribute("disabled", to: "#quiz-skip-button")
     |> JS.remove_attribute("disabled", to: "#quiz-retry-button")
   end
 
-  def disable_actions(event) do
+  def disable_actions(event \\ %JS{}) do
     event
     |> JS.remove_attribute("disabled", to: "#quiz-skip-button")
     |> JS.remove_attribute("disabled", to: "#quiz-retry-button")
   end
 
-  def show_results() do
-    JS.show(
+  def show_results(event \\ %JS{}) do
+    event
+    |> JS.show(
       to: "#results",
       transition: {"ease-out duration-1000", "opacity-0", "opacity-100"}
     )
   end
 
-  def hide_results() do
-    JS.hide(
+  def hide_results(event \\ %JS{}) do
+    event
+    |> JS.hide(
       to: "#results",
       transition: {"ease-out duration-1000", "opacity-100", "opacity-0"}
     )
