@@ -4,6 +4,7 @@ defmodule Flagguesserapp.Regions do
   """
 
   import Ecto.Query, warn: false
+  alias Flagguesserapp.Flags.Flag
   alias Flagguesserapp.Repo
 
   alias Flagguesserapp.Regions.Region
@@ -45,6 +46,11 @@ defmodule Flagguesserapp.Regions do
 
   def get_region_with_flags!(id_or_slug) do
     get_region!(id_or_slug) |> Repo.preload(:flags)
+  end
+
+  def get_region_with_flags_with_limit!(id_or_slug, limit) do
+    get_region!(id_or_slug)
+    |> Repo.preload(flags: from(f in Flag, limit: ^limit))
   end
 
   def region_names_and_ids do

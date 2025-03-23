@@ -1,7 +1,7 @@
 defmodule FlagguesserappWeb.QuizLive.Index do
+  alias FlagguesserappWeb.QuizLive.ModeParser
   use FlagguesserappWeb, :live_view
 
-  alias Flagguesserapp.Regions
   alias FlagguesserappWeb.QuizLive.JSQuiz
 
   import FlagguesserappWeb.CustomComponents
@@ -68,7 +68,7 @@ defmodule FlagguesserappWeb.QuizLive.Index do
           <button
             id="quiz-skip-button"
             phx-click={
-              JS.push("next", loading: ["#quizcard", "#quiz-spinner"])
+              JS.push("skip", loading: ["#quizcard", "#quiz-spinner"])
               |> JSQuiz.hide_answer()
             }
           >
@@ -102,17 +102,14 @@ defmodule FlagguesserappWeb.QuizLive.Index do
     {:ok, socket}
   end
 
-  def handle_params(%{"slug" => slug}, _uri, socket) do
-    region =
-      slug
-      |> Regions.get_region_with_flags!()
-      |> Map.update!(:flags, &Enum.shuffle(&1))
+  def handle_params(params, _url, socket) do
+    region = ModeParser.parse_region(params)
 
     socket =
       socket
-      |> assign(page_title: region.name)
-      |> assign(region: region)
+      |> assign(:region, region)
       |> assign(current_flag: Enum.at(region.flags, 0))
+      |> assign(params: params)
 
     {:noreply, socket}
   end
@@ -125,22 +122,34 @@ defmodule FlagguesserappWeb.QuizLive.Index do
     end
   end
 
+  def handle_event("skip", _params, %{assigns: %{current_flag: flag, region: region}} = socket) do
+    new_index = Enum.find_index(region.flags, &(&1 == flag)) + 1
+
+    socket =
+      socket
+      |> assign(:current_flag, Enum.at(region.flags, new_index))
+      |> push_event("enable_actions", %{})
+
+    {:noreply, socket}
+  end
+
   def handle_event("next", _params, %{assigns: %{current_flag: flag, region: region}} = socket) do
     new_index = Enum.find_index(region.flags, &(&1 == flag)) + 1
 
     socket =
       socket
       |> assign(:current_flag, Enum.at(region.flags, new_index))
+      |> push_event("enable_actions", %{})
 
-    {:noreply, push_event(socket, "enable_actions", %{})}
+    {:noreply, socket}
   end
 
   def handle_event("retry", _params, socket) do
-    {:noreply, push_patch(socket, to: ~p"/quiz/#{socket.assigns.region.slug}")}
+    {:noreply, push_patch(socket, to: ~p"/quiz/?#{socket.assigns.params}")}
   end
 
   def handle_event("end", _params, socket) do
-    {:noreply, redirect(socket, to: ~p"/")}
+    {:noreply, redirect(socket, to: ~p"/select/")}
   end
 
   defp quiz_choices(current_flag, flags) do
