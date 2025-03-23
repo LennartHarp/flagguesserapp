@@ -1,8 +1,10 @@
+alias Flagguesserapp.Modes.Mode
 alias Flagguesserapp.Accounts.User
 alias Flagguesserapp.Regions.Region
 alias Flagguesserapp.Flags.Flag
 alias Flagguesserapp.Repo
 
+# Regions
 africa =
   %Region{name: "Africa", slug: "africa", image_path: "/images/africa.svg"}
   |> Repo.insert!()
@@ -27,6 +29,15 @@ oceania =
   %Region{name: "Oceania", slug: "oceania", image_path: "/images/oceania.svg"}
   |> Repo.insert!()
 
+# Modes
+[
+  %Mode{name: "Best of all!", slug: "best-of-all"},
+  %Mode{name: "Best of 10!", slug: "best-of-ten"},
+  %Mode{name: "Best of 20!", slug: "best-of-twenty"}
+]
+|> Enum.each(&Repo.insert!(&1))
+
+# Users
 test_user =
   %User{}
   |> User.registration_changeset(%{
@@ -46,6 +57,7 @@ test_admin_user =
   })
   |> Repo.insert!()
 
+# Flags
 [
   %Flag{name: "Afghanistan", region: asia, image_path: "/images/af.svg"},
   %Flag{name: "Albania", region: europe, image_path: "/images/al.svg"},
@@ -211,4 +223,4 @@ test_admin_user =
   %Flag{name: "Slovenia", region: europe, image_path: "/images/si.svg"}
   # Füge weitere Länder alphabetisch hinzu...
 ]
-|> Enum.each(&Repo.insert!/1)
+|> Enum.each(&Repo.insert!(&1))
