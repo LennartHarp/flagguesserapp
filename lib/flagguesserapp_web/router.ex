@@ -27,11 +27,14 @@ defmodule FlagguesserappWeb.Router do
 
     live_session :browser,
       on_mount: {FlagguesserappWeb.UserAuth, :mount_current_user} do
-      live "/", FlagLive.Overview, :index
+      live "/flags/overview", FlagLive.Overview, :index
 
       live "/flags/:id", FlagLive.Show, :show
 
-      live "/quiz/:slug", QuizLive.Index, :index
+      live "/quiz/", QuizLive.Index, :show
+
+      live "/select/", QuizLive.Select, :show
+      live "/select/:params", QuizLive.Select, :show
 
       live "/regions/:id", RegionLive.Show, :show
     end

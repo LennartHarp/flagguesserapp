@@ -45,7 +45,7 @@ defmodule FlagguesserappWeb.RegionLive.Show do
     </section>
 
     <div class="bg-white rounded p-4 mt-2">
-      <.back navigate={~p"/"} class="mt-0">Back to Overview</.back>
+      <.back navigate={~p"/flags/overview"} class="mt-0">Back to Overview</.back>
     </div>
     """
   end

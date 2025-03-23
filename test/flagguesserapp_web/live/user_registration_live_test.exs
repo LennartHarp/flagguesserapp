@@ -45,7 +45,7 @@ defmodule FlagguesserappWeb.UserRegistrationLiveTest do
       render_submit(form)
       conn = follow_trigger_action(form, conn)
 
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/select/"
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")

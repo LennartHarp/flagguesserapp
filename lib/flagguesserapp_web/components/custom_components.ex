@@ -1,6 +1,6 @@
 defmodule FlagguesserappWeb.CustomComponents do
-  alias Flagguesserapp.Regions
   use FlagguesserappWeb, :html
+  alias Flagguesserapp.Regions
 
   slot :content
   slot :actions
@@ -134,7 +134,7 @@ defmodule FlagguesserappWeb.CustomComponents do
   def region_list(assigns) do
     ~H"""
     <div :for={region <- Regions.list_regions()}>
-      <.link navigate={~p"/quiz/#{region.slug}"}>
+      <.link navigate={~p"/quiz/?#{region.slug}"}>
         {region.name}
       </.link>
     </div>

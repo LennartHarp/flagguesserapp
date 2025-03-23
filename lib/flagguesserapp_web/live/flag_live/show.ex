@@ -37,7 +37,7 @@ defmodule FlagguesserappWeb.FlagLive.Show do
         <:item title="Image path">{@flag.image_path}</:item>
       </.display>
       
-      <.back navigate={~p"/"}>Back to flags</.back>
+      <.back navigate={~p"/flags/overview"}>Back to flags</.back>
     </div>
     """
   end

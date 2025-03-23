@@ -61,6 +61,7 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
           placeholder="Search..."
           autocomplete="off"
           phx-debounce="500"
+          type="search"
           class="filter-input"
         />
         <.input
@@ -83,7 +84,7 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
         />
       </div>
       
-      <.link patch={~p"/"} class="filter-reset">
+      <.link patch={~p"/flags/overview"} class="filter-reset">
         Reset
       </.link>
     </.form>
@@ -100,14 +101,12 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
       |> Map.take(~w(q sort_by region))
       |> Map.reject(fn {_, v} -> v == "" end)
 
-    socket = push_patch(socket, to: ~p"/?#{params}")
+    socket = push_patch(socket, to: ~p"/flags/overview/?#{params}")
 
     {:noreply, socket}
   end
 
   def handle_event("show_more", _params, socket) do
-    IO.inspect(socket.assigns.form)
-
     params =
       socket.assigns.form.params
       |> Map.take(~w(q sort_by region))
@@ -116,7 +115,7 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
     socket =
       socket
       |> update(:limit, &(&1 + 6))
-      |> push_patch(to: ~p"/?#{params}")
+      |> push_patch(to: ~p"/flags/overview/?#{params}")
 
     {:noreply, socket}
   end
