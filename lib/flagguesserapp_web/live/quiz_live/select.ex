@@ -7,23 +7,25 @@ defmodule FlagguesserappWeb.QuizLive.Select do
   def render(assigns) do
     ~H"""
     <div class="bg-white rounded-lg p-3">
-      <h1 class="text-2xl font-semibold">Choose Region:</h1>
+      <h1 class="text-2xl font-semibold flex justify-center">Choose Region</h1>
     </div>
 
-    <div class="flagcard-grid" id="region-select">
-      <button
-        :for={{dom_id, region} <- @streams.regions}
-        id={dom_id}
-        type="button"
-        phx-click={select("region-select", "mode-select")}
-        phx-value-region={region.slug}
-        class="flagcard-grid-button"
-      >
-        {region.name}
-      </button>
+    <div id="region-select">
+      <div class="flagcard-grid">
+        <button
+          :for={{dom_id, region} <- @streams.regions}
+          id={dom_id}
+          type="button"
+          phx-click={select("region-select", "mode-select")}
+          phx-value-region={region.slug}
+          class="flagcard-grid-button"
+        >
+          {region.name}
+        </button>
+      </div>
     </div>
 
-    <div class="hidden" id="mode-select">
+    <div id="mode-select" class="hidden">
       <div class="flagcard-grid">
         <button
           :for={{dom_id, mode} <- @streams.modes}
@@ -36,10 +38,30 @@ defmodule FlagguesserappWeb.QuizLive.Select do
           {mode.name}
         </button>
       </div>
+      
+      <button
+        type="button"
+        phx-click={select("mode-select", "region-select")}
+        class="flagcard-grid-button"
+      >
+        <.icon name="hero-arrow-uturn-left" />
+      </button>
     </div>
 
-    <div class="hidden" id="start-quiz">
-      <button type="button" phx-click="start" class="flagcard-grid-button">Start</button>
+    <div id="start-quiz" class="hidden">
+      <div class="flex justify-center items-center">
+        <button type="button" phx-click="start" class="flagcard-grid-button">
+          <.icon name="hero-play-circle-solid" />
+        </button>
+      </div>
+      
+      <button
+        type="button"
+        phx-click={select("start-quiz", "mode-select")}
+        class="flagcard-grid-button"
+      >
+        <.icon name="hero-arrow-uturn-left" />
+      </button>
     </div>
     """
   end
@@ -71,6 +93,10 @@ defmodule FlagguesserappWeb.QuizLive.Select do
 
   def handle_event("validate", %{"mode" => mode}, socket) do
     {:noreply, assign(socket, :mode, mode)}
+  end
+
+  def handle_event("validate", _params, socket) do
+    {:noreply, socket}
   end
 
   def select(dom_id, dest_dom_id) do
