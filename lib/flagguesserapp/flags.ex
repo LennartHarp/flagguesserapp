@@ -17,6 +17,15 @@ defmodule Flagguesserapp.Flags do
       [%Flag{}, ...]
 
   """
+
+  def subscribe(flagd_id) do
+    Phoenix.PubSub.subscribe(Flagguesserapp.PubSub, "flag:#{flagd_id}")
+  end
+
+  def broadcast(flagd_id, message) do
+    Phoenix.PubSub.broadcast(Flagguesserapp.PubSub, "flag:#{flagd_id}", message)
+  end
+
   def list_flags do
     Repo.all(Flag)
   end
@@ -132,6 +141,15 @@ defmodule Flagguesserapp.Flags do
     flag
     |> Flag.changeset(attrs)
     |> Repo.update()
+    |> case do
+      {:ok, flag} ->
+        flag = Repo.preload(flag, :region)
+        broadcast(flag.id, %{updated_flag: flag})
+        {:ok, flag}
+
+      {:error, flag} ->
+        {:error, flag}
+    end
   end
 
   @doc """

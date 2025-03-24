@@ -49,4 +49,18 @@ defmodule FlagguesserappWeb.FlagLive.Show do
      |> assign(:page_title, "Show Flag")
      |> assign(:flag, Flags.get_flag_with_region!(id))}
   end
+
+  @impl true
+  def handle_params(%{"id" => id}, _uri, socket) do
+    if connected?(socket) do
+      Flags.subscribe(id)
+    end
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(%{updated_flag: flag}, socket) do
+    {:noreply, assign(socket, flag: flag)}
+  end
 end

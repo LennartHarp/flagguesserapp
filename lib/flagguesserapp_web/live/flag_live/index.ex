@@ -16,10 +16,16 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
   end
 
   def handle_params(params, _uri, socket) do
+    flags = Flags.filter_flags(params, socket.assigns.limit)
+
     socket =
       socket
-      |> stream(:flags, Flags.filter_flags(params, socket.assigns.limit), reset: true)
+      |> stream(:flags, flags, reset: true)
       |> assign(:form, to_form(params))
+
+    if connected?(socket) do
+      Enum.each(flags, &Flags.subscribe(&1.id))
+    end
 
     {:noreply, socket}
   end
@@ -116,6 +122,14 @@ defmodule FlagguesserappWeb.FlagLive.Overview do
       socket
       |> update(:limit, &(&1 + 6))
       |> push_patch(to: ~p"/flags/overview/?#{params}")
+
+    {:noreply, socket}
+  end
+
+  def handle_info(%{updated_flag: flag}, socket) do
+    socket =
+      socket
+      |> stream_insert(:flags, flag, reset: true)
 
     {:noreply, socket}
   end
